@@ -1,0 +1,54 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://cqr00q4p87l1t"]
+
+[ext_resource type="Texture2D" uid="uid://c06snwk0jdujs" path="res://gui/action_controls/assets/GUI Icons B.png" id="1_j7pba"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y0e2k"]
+atlas = ExtResource("1_j7pba")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gl3ed"]
+atlas = ExtResource("1_j7pba")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxrjj"]
+atlas = ExtResource("1_j7pba")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yc4lf"]
+atlas = ExtResource("1_j7pba")
+region = Rect2(16, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y0e2k")
+}],
+"loop": true,
+"name": &"Pause",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gl3ed")
+}],
+"loop": true,
+"name": &"Resume",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxrjj")
+}],
+"loop": true,
+"name": &"Settings A",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yc4lf")
+}],
+"loop": true,
+"name": &"Settings B",
+"speed": 5.0
+}]

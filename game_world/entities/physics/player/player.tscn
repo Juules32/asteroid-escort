@@ -1,0 +1,551 @@
+[gd_scene load_steps=41 format=3 uid="uid://dhv6vf033w8on"]
+
+[ext_resource type="Script" uid="uid://cu03qx8ev4gd4" path="res://game_world/entities/physics/player/player.gd" id="1_jmwjf"]
+[ext_resource type="PackedScene" uid="uid://cw1kl0xt8erw0" path="res://game_world/entities/physics/movement_entity.tscn" id="1_s4rrw"]
+[ext_resource type="PackedScene" uid="uid://dxd5eeft020i8" path="res://components/controllers/player_controller.tscn" id="2_jmwjf"]
+[ext_resource type="PackedScene" uid="uid://4q56idvipicy" path="res://game_world/entities/physics/player/block_placer.tscn" id="4_ygcj8"]
+[ext_resource type="AudioStream" uid="uid://n43vmitmtn0h" path="res://game_world/entities/physics/player/assets/Thruster-bounce-5.wav" id="6_vvtc2"]
+[ext_resource type="AudioStream" uid="uid://c5qxyk0yyk03b" path="res://game_world/entities/physics/player/assets/drill-start.ogg" id="7_f81jc"]
+[ext_resource type="PackedScene" uid="uid://24qxc81pt15h" path="res://game_world/entities/physics/player/PlayerSprites.tscn" id="7_mdc1o"]
+[ext_resource type="AudioStream" uid="uid://24leanjt16ho" path="res://game_world/entities/physics/player/assets/drill.wav" id="8_f81jc"]
+[ext_resource type="AudioStream" uid="uid://ciccunw2kserf" path="res://game_world/entities/physics/player/assets/drill-end.ogg" id="9_m7330"]
+[ext_resource type="Script" uid="uid://hwsrupv8jykq" path="res://game_world/entities/physics/player/player_particles.gd" id="9_vvtc2"]
+[ext_resource type="PackedScene" uid="uid://b7yoht6nuok11" path="res://game_world/black_hole/black_hole.tscn" id="9_ygcj8"]
+[ext_resource type="AudioStream" uid="uid://bflubfqakh515" path="res://game_world/entities/physics/player/assets/mining.wav" id="10_jguv4"]
+[ext_resource type="Shader" uid="uid://d26dpg55l186l" path="res://shaders/black_hole.gdshader" id="10_s8gb8"]
+[ext_resource type="Script" uid="uid://drkjs2op7q4e7" path="res://components/damage_component.gd" id="10_ygcj8"]
+[ext_resource type="AudioStream" uid="uid://ctv3lbdo4ssw7" path="res://game_world/entities/physics/player/assets/player death-bounce-2.wav" id="11_b1mxx"]
+[ext_resource type="Script" uid="uid://5k55yljjq2n" path="res://components/health_component.gd" id="11_s8gb8"]
+[ext_resource type="AudioStream" uid="uid://cu0mvlofkxcbp" path="res://game_world/entities/physics/player/assets/player repair.wav" id="12_fplcg"]
+[ext_resource type="Script" uid="uid://xoi0lk67uk4h" path="res://game_world/entities/physics/player/animation_player.gd" id="14_kf2bs"]
+[ext_resource type="AudioStream" uid="uid://3tki2ipmqpq5" path="res://game_world/entities/physics/structures/core/Black hole ambience-bounce-2.wav" id="16_fplcg"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_lvosi"]
+points = PackedVector2Array(12, -2, -7, -7, -8, 0, -7, 7, 12, 2)
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_ygcj8"]
+points = PackedVector2Array(17, -1, 12, -2, 12, 2, 17, 1)
+
+[sub_resource type="Curve" id="Curve_f81jc"]
+_data = [Vector2(0, 0), 0.0, 2.3785512, 0, 0, Vector2(0.5048047, 0.5048519), 0.0, 0.0, 0, 0, Vector2(1, 0), -3.0005705, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_m1knl"]
+curve = SubResource("Curve_f81jc")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jguv4"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(800, 800, 1)
+gravity = Vector3(0, 0, 0)
+scale_max = 3.0
+color = Color(0.30980393, 0.56078434, 0.7294118, 1)
+alpha_curve = SubResource("CurveTexture_m1knl")
+
+[sub_resource type="CurveTexture" id="CurveTexture_jguv4"]
+
+[sub_resource type="Gradient" id="Gradient_mdc1o"]
+offsets = PackedFloat32Array(0, 0.21336389, 0.8358572, 1)
+colors = PackedColorArray(0.87, 0.87, 0.87, 1, 0.828632, 0.82863206, 0.82863206, 1, 0.5584212, 0.55842125, 0.5584211, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vvtc2"]
+gradient = SubResource("Gradient_mdc1o")
+
+[sub_resource type="Curve" id="Curve_vvtc2"]
+_data = [Vector2(0, 0.54695356), 0.0, 0.0, 0, 0, Vector2(0.1661892, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.027162194), -0.57036173, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ygcj8"]
+curve = SubResource("Curve_vvtc2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mdc1o"]
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 20.0
+initial_velocity_min = 25.9
+initial_velocity_max = 46.44
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 6.5
+scale_curve = SubResource("CurveTexture_ygcj8")
+color_ramp = SubResource("GradientTexture1D_vvtc2")
+alpha_curve = SubResource("CurveTexture_jguv4")
+hue_variation_min = -2.2351742e-08
+hue_variation_max = -2.2351742e-08
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ygcj8"]
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 50.0
+initial_velocity_min = 80.0
+initial_velocity_max = 100.0
+angular_velocity_min = -1.6093254e-05
+angular_velocity_max = 99.999985
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 3.0
+color = Color(0.92156863, 0.92941177, 0.9137255, 1)
+
+[sub_resource type="AudioStreamGenerator" id="AudioStreamGenerator_vvtc2"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_f81jc"]
+clip_count = 2
+clip_0/name = &"Thruster Bounce 2"
+clip_0/stream = SubResource("AudioStreamGenerator_vvtc2")
+clip_0/auto_advance = 1
+clip_0/next_clip = 1
+clip_1/name = &"Thruster Bounce 3"
+clip_1/stream = ExtResource("6_vvtc2")
+clip_1/auto_advance = 0
+_transitions = {
+Vector2i(0, -1): {
+"fade_beats": 0.1,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(1, -1): {
+"fade_beats": 1.0,
+"fade_mode": 1,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(1, 1): {
+"fade_beats": 1.0,
+"fade_mode": 4,
+"from_time": 0,
+"to_time": 0
+}
+}
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_okd6m"]
+clip_count = 3
+clip_0/name = &"Drill Start"
+clip_0/stream = ExtResource("7_f81jc")
+clip_0/auto_advance = 1
+clip_0/next_clip = 1
+clip_1/name = &"Drill"
+clip_1/stream = ExtResource("8_f81jc")
+clip_1/auto_advance = 0
+clip_2/name = &"Drill End"
+clip_2/stream = ExtResource("9_m7330")
+clip_2/auto_advance = 0
+_transitions = {
+Vector2i(0, 1): {
+"fade_beats": 1.0,
+"fade_mode": 3,
+"from_time": 1,
+"to_time": 1
+},
+Vector2i(0, 2): {
+"fade_beats": 0.1,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 0
+},
+Vector2i(1, 2): {
+"fade_beats": 0.1,
+"fade_mode": 3,
+"from_time": 0,
+"to_time": 1
+}
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vvtc2"]
+size = Vector2(4, 1)
+
+[sub_resource type="Animation" id="Animation_m7330"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BlackHole:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BlackHole:material:shader_parameter/spin_speed")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BlackHole:material:shader_parameter/black_radius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.3]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerSprites:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BlackHole:material:shader_parameter/chroma_strength")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.01]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BlackHole:material:shader_parameter/strength")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("PlayerFX/BlackHoleSpawn:volume_db")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_jguv4"]
+resource_name = "spawn_animation"
+length = 4.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BlackHole:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("BlackHole:material:shader_parameter/spin_speed")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2.5),
+"transitions": PackedFloat32Array(1, 1.5157166, 1),
+"update": 0,
+"values": [-2.2352000073055933e-07, -2.2352000073055933e-07, 9.99999955296]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("BlackHole:material:shader_parameter/black_radius")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 2, 2.3, 2.7),
+"transitions": PackedFloat32Array(1, 1.6817932, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.30000001425, 0.30000001425, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PlayerSprites:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1, 2, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1.001358e-05, 1.001358e-05), Vector2(1e-05, 1e-05), Vector2(0, 0), Vector2(1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("BlackHole:material:shader_parameter/chroma_strength")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1, 2.3, 2.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 0.01, 0.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("BlackHole:material:shader_parameter/strength")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1, 2.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.050000002375, 0.050000002375, 0.0]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("BlackHole")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(2.7),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(2.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"push_on_spawn"
+}]
+}
+tracks/8/type = "audio"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("PlayerFX/BlackHoleSpawn")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"clips": [{
+"end_offset": 54.779564,
+"start_offset": 1.656369,
+"stream": ExtResource("16_fplcg")
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/8/use_blend = true
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("PlayerFX/BlackHoleSpawn:volume_db")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 0.3, 3.2, 3.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [-80.0, 0.0, 0.0, -80.0]
+}
+tracks/10/type = "method"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("AnimationPlayer")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(3),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"enable_movement"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_okd6m"]
+_data = {
+&"RESET": SubResource("Animation_m7330"),
+&"spawn_animation": SubResource("Animation_jguv4")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ygcj8"]
+resource_local_to_scene = true
+shader = ExtResource("10_s8gb8")
+shader_parameter/strength = 0.0
+shader_parameter/swirl_strength = 2.0
+shader_parameter/spin_speed = 1.0
+shader_parameter/black_radius = 0.3
+shader_parameter/chroma_strength = 0.01
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mdc1o"]
+radius = 40.0
+
+[node name="Player" groups=["indicated", "player"] instance=ExtResource("1_s4rrw")]
+collision_layer = 2
+collision_mask = 19
+script = ExtResource("1_jmwjf")
+movement_speed = 5.0
+movement_deaccel_mult = 0.98
+rotation_speed = 2.0
+rotation_deaccel_mult = 0.8
+
+[node name="PlayerController" parent="." index="1" instance=ExtResource("2_jmwjf")]
+
+[node name="BlockPlacer" parent="PlayerController" index="0" node_paths=PackedStringArray("player") instance=ExtResource("4_ygcj8")]
+player = NodePath("../..")
+
+[node name="PlayerCamera" type="Camera2D" parent="." index="2"]
+enabled = false
+process_callback = 0
+position_smoothing_enabled = true
+position_smoothing_speed = 20.0
+
+[node name="BodyShape" type="CollisionShape2D" parent="." index="3"]
+shape = SubResource("ConvexPolygonShape2D_lvosi")
+
+[node name="TipShape" type="CollisionShape2D" parent="." index="4"]
+shape = SubResource("ConvexPolygonShape2D_ygcj8")
+
+[node name="PlayerFX" type="Node2D" parent="." index="5" node_paths=PackedStringArray("drill_area", "player_sprites")]
+position = Vector2(-8, 0)
+script = ExtResource("9_vvtc2")
+drill_area = NodePath("../DrillArea")
+player_sprites = NodePath("../PlayerSprites")
+
+[node name="AmbientParticles" type="GPUParticles2D" parent="PlayerFX" index="0"]
+position = Vector2(8, 0)
+amount = 100
+lifetime = 4.0
+randomness = 0.71
+process_material = SubResource("ParticleProcessMaterial_jguv4")
+
+[node name="RightThruster" type="GPUParticles2D" parent="PlayerFX" index="1"]
+position = Vector2(0, 4)
+emitting = false
+amount = 20
+lifetime = 0.6
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_mdc1o")
+
+[node name="LeftThruster" type="GPUParticles2D" parent="PlayerFX" index="2"]
+position = Vector2(0, -4)
+emitting = false
+amount = 20
+lifetime = 0.6
+randomness = 0.5
+process_material = SubResource("ParticleProcessMaterial_mdc1o")
+
+[node name="Drill" type="GPUParticles2D" parent="PlayerFX" index="3"]
+position = Vector2(25, 0)
+emitting = false
+lifetime = 0.2
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ygcj8")
+
+[node name="LeftThrusterSFX" type="AudioStreamPlayer2D" parent="PlayerFX" index="4"]
+position = Vector2(0, -4)
+stream = SubResource("AudioStreamInteractive_f81jc")
+volume_db = -20.386
+max_distance = 600.0
+bus = &"Diegetic SFX"
+
+[node name="RightThrusterSFX" type="AudioStreamPlayer2D" parent="PlayerFX" index="5"]
+position = Vector2(0, 4)
+stream = SubResource("AudioStreamInteractive_f81jc")
+volume_db = -20.386
+max_distance = 600.0
+bus = &"Diegetic SFX"
+
+[node name="DrillSFX" type="AudioStreamPlayer2D" parent="PlayerFX" index="6"]
+position = Vector2(13, 0)
+stream = SubResource("AudioStreamInteractive_okd6m")
+max_distance = 800.0
+bus = &"Diegetic SFX"
+
+[node name="MiningSFX" type="AudioStreamPlayer2D" parent="PlayerFX" index="7"]
+position = Vector2(24, 0)
+stream = ExtResource("10_jguv4")
+bus = &"Diegetic SFX"
+
+[node name="Death" type="AudioStreamPlayer2D" parent="PlayerFX" index="8"]
+stream = ExtResource("11_b1mxx")
+volume_db = -5.614
+
+[node name="Repair" type="AudioStreamPlayer2D" parent="PlayerFX" index="9"]
+stream = ExtResource("12_fplcg")
+volume_db = -5.614
+
+[node name="BlackHoleSpawn" type="AudioStreamPlayer2D" parent="PlayerFX" index="10"]
+bus = &"Diegetic SFX"
+
+[node name="DrillArea" type="Area2D" parent="." index="6"]
+collision_layer = 0
+collision_mask = 17
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DrillArea" index="0"]
+position = Vector2(14.5, 0)
+shape = SubResource("RectangleShape2D_vvtc2")
+
+[node name="DamageComponent" type="Node" parent="DrillArea" index="1"]
+script = ExtResource("10_ygcj8")
+
+[node name="PlayerSprites" parent="." index="7" instance=ExtResource("7_mdc1o")]
+
+[node name="HealthComponent" type="Node" parent="." index="8"]
+script = ExtResource("11_s8gb8")
+max_health = 50.0
+metadata/_custom_type_script = "uid://5k55yljjq2n"
+
+[node name="RepairStateTimer" type="Timer" parent="." index="9"]
+wait_time = 15.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="10"]
+libraries = {
+&"": SubResource("AnimationLibrary_okd6m")
+}
+script = ExtResource("14_kf2bs")
+
+[node name="BlackHole" parent="." index="11" instance=ExtResource("9_ygcj8")]
+z_index = 2
+material = SubResource("ShaderMaterial_ygcj8")
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+
+[node name="Area2D_AsteroidChecker" type="Area2D" parent="." index="12"]
+collision_layer = 32
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D_AsteroidChecker" index="0"]
+shape = SubResource("CircleShape2D_mdc1o")
+
+[connection signal="timeout" from="RepairStateTimer" to="." method="_on_repair_state_timer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="AnimationPlayer" method="_on_animation_finished"]
+[connection signal="body_entered" from="Area2D_AsteroidChecker" to="." method="_on_area_2d_asteroid_checker_body_entered"]

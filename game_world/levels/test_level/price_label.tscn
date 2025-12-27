@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://cm6w16tq47xyg"]
+
+[ext_resource type="Texture2D" uid="uid://byo1d0g41r84o" path="res://game_world/entities/physics/structures/blocks/block_specifications/assets/alloy_gold.png" id="1_uufob"]
+[ext_resource type="Script" uid="uid://bjxt320b3sa28" path="res://game_world/levels/test_level/price_label.gd" id="1_v0vm1"]
+
+[node name="PriceLabel" type="HBoxContainer"]
+offset_right = 60.0
+offset_bottom = 69.0
+script = ExtResource("1_v0vm1")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("1_uufob")
+stretch_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+bbcode_enabled = true
+text = ": 0aaaaa"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0

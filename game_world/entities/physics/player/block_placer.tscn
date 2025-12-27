@@ -1,0 +1,89 @@
+[gd_scene load_steps=12 format=3 uid="uid://4q56idvipicy"]
+
+[ext_resource type="Script" uid="uid://dssruxx4xq14w" path="res://game_world/entities/physics/player/block_placer.gd" id="1_mntsx"]
+[ext_resource type="Material" uid="uid://23fedj5qkx2q" path="res://game_world/entities/physics/player/block_placement_particles.tres" id="2_jvwt0"]
+[ext_resource type="Shader" uid="uid://cfyralmxkjwmk" path="res://shaders/hologram.gdshader" id="2_l2anm"]
+[ext_resource type="Texture2D" uid="uid://bfi3yev5m7phj" path="res://assets/hologram_lines.png" id="3_jvwt0"]
+[ext_resource type="AudioStream" uid="uid://djvbl3ltk2ku8" path="res://game_world/entities/physics/player/assets/PlacementFailed.wav" id="5_h2qoa"]
+[ext_resource type="AudioStream" uid="uid://csskmc8304c25" path="res://game_world/entities/physics/player/assets/PlacementSuccess.wav" id="6_jf3oh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_epssc"]
+size = Vector2(16, 16)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_epssc"]
+resource_local_to_scene = true
+shader = ExtResource("2_l2anm")
+shader_parameter/baseColor = Color(0.3058, 0.835, 0.96, 1)
+shader_parameter/speed = 0.3
+shader_parameter/transparency = 0.5
+shader_parameter/linesColor = Color(0.633232, 0.910156, 0.555693, 1)
+shader_parameter/linesColorIntensity = 2.0
+shader_parameter/hologramTexture = ExtResource("3_jvwt0")
+shader_parameter/hologramTextureTiling = Vector2(3, 3)
+shader_parameter/scroll_direction = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_mntsx"]
+offsets = PackedFloat32Array(0, 0.6454545, 0.7151515)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_l2anm"]
+gradient = SubResource("Gradient_mntsx")
+width = 260
+height = 260
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_l2anm"]
+radius = 120.0
+
+[node name="BlockPlacer" type="Node"]
+script = ExtResource("1_mntsx")
+
+[node name="PlacementParticles" type="GPUParticles2D" parent="."]
+z_index = -4
+emitting = false
+amount = 100
+lifetime = 0.25
+visibility_rect = Rect2(-2.6889372, -7.8854113, 125.05983, 15.3347645)
+local_coords = true
+trail_lifetime = 0.01
+process_material = ExtResource("2_jvwt0")
+
+[node name="PlacementRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(0, 0)
+collision_mask = 4
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="AnchorMarker" type="Marker2D" parent="."]
+
+[node name="PlacementArea" type="Area2D" parent="AnchorMarker"]
+collision_layer = 0
+collision_mask = 3
+
+[node name="PlacementCollisionShape" type="CollisionShape2D" parent="AnchorMarker/PlacementArea"]
+shape = SubResource("RectangleShape2D_epssc")
+
+[node name="PlacementSprite" type="Sprite2D" parent="AnchorMarker/PlacementArea/PlacementCollisionShape"]
+material = SubResource("ShaderMaterial_epssc")
+
+[node name="Fail" type="AudioStreamPlayer2D" parent="AnchorMarker/PlacementArea"]
+stream = ExtResource("5_h2qoa")
+bus = &"Diegetic SFX"
+
+[node name="Success" type="AudioStreamPlayer2D" parent="AnchorMarker/PlacementArea"]
+stream = ExtResource("6_jf3oh")
+bus = &"Diegetic SFX"
+
+[node name="PlacementCooldown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="BlockPlacementAreaIndicator" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0.050980393)
+texture = SubResource("GradientTexture2D_l2anm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_l2anm")

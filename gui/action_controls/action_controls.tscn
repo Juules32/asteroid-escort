@@ -1,0 +1,135 @@
+[gd_scene load_steps=9 format=3 uid="uid://br2gbdmrxwxxc"]
+
+[ext_resource type="Script" uid="uid://b8nyiec8nxq8l" path="res://gui/action_controls/action_controls.gd" id="1_23meo"]
+[ext_resource type="Texture2D" uid="uid://c4xcy3cd2x5fd" path="res://icon.svg" id="1_oib8q"]
+[ext_resource type="Texture2D" uid="uid://dwy50msd7al85" path="res://gui/action_controls/assets/finger_pointing.png" id="2_f6rgr"]
+[ext_resource type="Texture2D" uid="uid://dgu4a3y5h2dbm" path="res://gui/action_controls/assets/16x16 Drill single.png" id="3_f6rgr"]
+[ext_resource type="Texture2D" uid="uid://i1cr38jjwnp5" path="res://gui/action_controls/assets/hammer_icon.png" id="4_bd8p0"]
+[ext_resource type="Texture2D" uid="uid://c4vd0kse4h7d6" path="res://gui/action_controls/assets/rotate_icon.png" id="5_qsgfi"]
+[ext_resource type="SpriteFrames" uid="uid://cqr00q4p87l1t" path="res://gui/action_controls/assets/action_controls.tres" id="6_bd8p0"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_23meo"]
+bg_color = Color(0.23529412, 0.36862746, 0.54509807, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="ActionControls" type="CanvasLayer"]
+script = ExtResource("1_23meo")
+lmb_main_image = ExtResource("2_f6rgr")
+rmb_main_image = ExtResource("3_f6rgr")
+lmb_build_image = ExtResource("4_bd8p0")
+rmb_build_image = ExtResource("5_qsgfi")
+action_icons = ExtResource("6_bd8p0")
+
+[node name="MContainer" type="MarginContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -130.0
+offset_top = -90.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PContainer" type="PanelContainer" parent="MContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_23meo")
+
+[node name="MContainer" type="MarginContainer" parent="MContainer/PContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBox" type="VBoxContainer" parent="MContainer/PContainer/MContainer"]
+layout_mode = 2
+
+[node name="HBoxU" type="HBoxContainer" parent="MContainer/PContainer/MContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FirstAction" type="TextureRect" parent="MContainer/PContainer/MContainer/VBox/HBoxU"]
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("1_oib8q")
+expand_mode = 2
+
+[node name="SecondAction" type="TextureRect" parent="MContainer/PContainer/MContainer/VBox/HBoxU"]
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("1_oib8q")
+expand_mode = 2
+
+[node name="HBoxD" type="HBoxContainer" parent="MContainer/PContainer/MContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="LabelL" type="Label" parent="MContainer/PContainer/MContainer/VBox/HBoxD"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "LMB"
+horizontal_alignment = 1
+
+[node name="LabelR" type="Label" parent="MContainer/PContainer/MContainer/VBox/HBoxD"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "RMB"
+horizontal_alignment = 1
+
+[node name="MContainer2" type="MarginContainer" parent="."]
+visible = false
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -90.0
+offset_right = 76.0
+grow_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PContainer" type="PanelContainer" parent="MContainer2"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_23meo")
+
+[node name="MContainer" type="MarginContainer" parent="MContainer2/PContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBox" type="VBoxContainer" parent="MContainer2/PContainer/MContainer"]
+layout_mode = 2
+
+[node name="HBoxU" type="HBoxContainer" parent="MContainer2/PContainer/MContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Pause" type="TextureRect" parent="MContainer2/PContainer/MContainer/VBox/HBoxU"]
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("1_oib8q")
+expand_mode = 2
+
+[node name="HBoxD" type="HBoxContainer" parent="MContainer2/PContainer/MContainer/VBox"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Label" type="Label" parent="MContainer2/PContainer/MContainer/VBox/HBoxD"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "ESC"
+horizontal_alignment = 1

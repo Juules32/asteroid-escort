@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BlockSpecification" load_steps=6 format=3 uid="uid://behg7t4qic1as"]
+
+[ext_resource type="Script" uid="uid://d2ux85ttlc4sv" path="res://game_world/entities/physics/structures/blocks/anchor.gd" id="1_dwny6"]
+[ext_resource type="PackedScene" uid="uid://d3r7b243rbt2v" path="res://game_world/entities/physics/structures/blocks/block.tscn" id="2_7vilj"]
+[ext_resource type="Script" uid="uid://dwcei2vdx3v18" path="res://game_world/entities/physics/structures/blocks/block_specification.gd" id="3_mrpwl"]
+[ext_resource type="Texture2D" uid="uid://d3dvcs0qro05n" path="res://game_world/entities/physics/structures/blocks/block_specifications/assets/medium_asteroid.png" id="4_jlxd3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_jue60"]
+radius = 24.0
+
+[resource]
+script = ExtResource("3_mrpwl")
+texture = ExtResource("4_jlxd3")
+shape = SubResource("CircleShape2D_jue60")
+mass = 16.0
+health = 150.0
+metadata/_custom_type_script = "uid://dwcei2vdx3v18"

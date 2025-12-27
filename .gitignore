@@ -1,0 +1,15 @@
+# Godot 4+ specific ignores
+.godot/
+android/
+.idea/misc.xml
+.idea/modules.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/vcs.xml
+.idea/asteroid-escort.iml
+.idea/workspace.xml
+~*.TMP
+~*.dll
+bin/web/*
+!bin/web/.gitkeep
+bin/win64/*
+!bin/win64/.gitkeep

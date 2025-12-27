@@ -1,0 +1,69 @@
+[gd_scene load_steps=16 format=3 uid="uid://bcvy43frrqsuo"]
+
+[ext_resource type="Script" uid="uid://cmnvg1e6pgg2p" path="res://singletons/music_manager/music_manager.gd" id="1_djhnp"]
+[ext_resource type="AudioStream" uid="uid://cefwufoxxkv2w" path="res://singletons/music_manager/audio/bass.wav" id="2_77ow1"]
+[ext_resource type="AudioStream" uid="uid://cfdcfhdj31ha7" path="res://singletons/music_manager/audio/bass_sidechain.wav" id="3_8275b"]
+[ext_resource type="AudioStream" uid="uid://bdcv7usexcdja" path="res://singletons/music_manager/audio/drone.wav" id="4_iqfkw"]
+[ext_resource type="AudioStream" uid="uid://r3t5mybth5e5" path="res://singletons/music_manager/audio/pad.wav" id="5_u6fm3"]
+[ext_resource type="AudioStream" uid="uid://wwchdpb12a1s" path="res://singletons/music_manager/audio/pad_sidechain.wav" id="6_afec2"]
+[ext_resource type="AudioStream" uid="uid://dyd2sdcj8u7d0" path="res://singletons/music_manager/audio/melody.wav" id="7_u6fm3"]
+[ext_resource type="AudioStream" uid="uid://dy4kdfbgqnmtv" path="res://singletons/music_manager/audio/space-ninja.wav" id="8_afec2"]
+[ext_resource type="AudioStream" uid="uid://bcbtx2f121rr5" path="res://singletons/music_manager/audio/rhythm-blip.wav" id="9_ybaue"]
+[ext_resource type="AudioStream" uid="uid://dcki408pww3yw" path="res://singletons/music_manager/audio/kick.wav" id="10_h7hi3"]
+[ext_resource type="AudioStream" uid="uid://bh2ssaoc7w304" path="res://singletons/music_manager/audio/top.wav" id="11_xl17o"]
+[ext_resource type="AudioStream" uid="uid://dcxul2jlv4ff5" path="res://singletons/music_manager/audio/lobby.mp3" id="12_tw0ck"]
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_xl17o"]
+clip_count = 2
+clip_0/name = &"Bass"
+clip_0/stream = ExtResource("2_77ow1")
+clip_0/auto_advance = 0
+clip_1/name = &"Bass Sidechain"
+clip_1/stream = ExtResource("3_8275b")
+clip_1/auto_advance = 0
+
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_tw0ck"]
+clip_count = 2
+clip_0/name = &"Pad"
+clip_0/stream = ExtResource("5_u6fm3")
+clip_0/auto_advance = 0
+clip_1/name = &"Pad Sidechain"
+clip_1/stream = ExtResource("6_afec2")
+clip_1/auto_advance = 0
+
+[sub_resource type="AudioStreamSynchronized" id="AudioStreamSynchronized_ydn4c"]
+stream_count = 8
+stream_0/stream = SubResource("AudioStreamInteractive_xl17o")
+stream_0/volume = 0.0
+stream_1/stream = SubResource("AudioStreamInteractive_tw0ck")
+stream_1/volume = 0.0
+stream_2/stream = ExtResource("4_iqfkw")
+stream_2/volume = 0.0
+stream_3/stream = ExtResource("7_u6fm3")
+stream_3/volume = 0.0
+stream_4/stream = ExtResource("8_afec2")
+stream_4/volume = 0.0
+stream_5/stream = ExtResource("9_ybaue")
+stream_5/volume = 0.0
+stream_6/stream = ExtResource("10_h7hi3")
+stream_6/volume = 0.0
+stream_7/stream = ExtResource("11_xl17o")
+stream_7/volume = 0.0
+
+[node name="MusicManager" type="AudioStreamPlayer"]
+stream = SubResource("AudioStreamSynchronized_ydn4c")
+volume_db = -8.894
+bus = &"Music"
+script = ExtResource("1_djhnp")
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="MicroTimer" type="Timer" parent="."]
+
+[node name="MainMenuMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_tw0ck")
+autoplay = true
+bus = &"Music"
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="MicroTimer" to="." method="_on_micro_timer_timeout"]

@@ -1,0 +1,18 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dk38pk8bko20r"]
+
+[ext_resource type="Texture2D" uid="uid://313uemxtd802" path="res://game_world/levels/test_level/assets/16x16 background space stars.png" id="1_ojqal"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bnibt"]
+texture = ExtResource("1_ojqal")
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:0/0 = 0
+2:1/0 = 0
+2:2/0 = 0
+1:2/0 = 0
+0:2/0 = 0
+
+[resource]
+sources/1 = SubResource("TileSetAtlasSource_bnibt")

@@ -1,0 +1,158 @@
+[gd_scene load_steps=9 format=3 uid="uid://s83k00doh1bm"]
+
+[ext_resource type="Script" uid="uid://dvnuj5wkuyiis" path="res://gui/lobby_menu/lobby_menu.gd" id="1_hvdr7"]
+[ext_resource type="PackedScene" uid="uid://uu3ojm63ewpq" path="res://gui/lobby_menu/player_data_element.tscn" id="2_tdt74"]
+[ext_resource type="PackedScene" uid="uid://baptqkmsj4gtb" path="res://gui/main_menu/multiplayer_main_menu.tscn" id="3_twdjk"]
+[ext_resource type="TileSet" uid="uid://dk38pk8bko20r" path="res://game_world/levels/test_level/Background_space.tres" id="4_s3oh8"]
+[ext_resource type="Script" uid="uid://c0ek1t0k6h8xu" path="res://game_world/levels/test_level/background_tile_map_layer.gd" id="5_srjbn"]
+[ext_resource type="PackedScene" uid="uid://dci8s31aeog3h" path="res://game_world/entities/physics/structures/core/core.tscn" id="6_x7jve"]
+[ext_resource type="PackedScene" uid="uid://pmwkskspo6dm" path="res://game_world/entities/physics/structures/asteroids/abstract_asteroid.tscn" id="7_lk772"]
+[ext_resource type="Script" uid="uid://c0sdrba2bxyuy" path="res://gui/lobby_menu/player_data_element_spawner.gd" id="8_s3oh8"]
+
+[node name="LobbyMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hvdr7")
+player_data_element = ExtResource("2_tdt74")
+main_menu = ExtResource("3_twdjk")
+
+[node name="Background" type="Node2D" parent="."]
+z_index = -100
+
+[node name="BackgroundLayer1" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0.6, 0.6)
+scroll_offset = Vector2(305, 184)
+repeat_size = Vector2(1600, 1600)
+
+[node name="Background" type="TileMapLayer" parent="Background/BackgroundLayer1"]
+show_behind_parent = true
+texture_filter = 1
+tile_set = ExtResource("4_s3oh8")
+script = ExtResource("5_srjbn")
+star_density = 0.05
+
+[node name="BackgroundLayer2" type="Parallax2D" parent="Background"]
+modulate = Color(1, 1, 1, 0.70980394)
+scroll_scale = Vector2(0.4, 0.4)
+scroll_offset = Vector2(305, 184)
+repeat_size = Vector2(1600, 1600)
+
+[node name="Background" type="TileMapLayer" parent="Background/BackgroundLayer2"]
+show_behind_parent = true
+texture_filter = 1
+tile_set = ExtResource("4_s3oh8")
+script = ExtResource("5_srjbn")
+has_medium_stars = true
+star_density = 0.05
+
+[node name="BackgroundLayer3" type="Parallax2D" parent="Background"]
+modulate = Color(1, 1, 1, 0.3764706)
+scroll_scale = Vector2(0.2, 0.2)
+scroll_offset = Vector2(305, 184)
+repeat_size = Vector2(1600, 1600)
+
+[node name="Background" type="TileMapLayer" parent="Background/BackgroundLayer3"]
+show_behind_parent = true
+texture_filter = 1
+tile_set = ExtResource("4_s3oh8")
+script = ExtResource("5_srjbn")
+has_medium_stars = true
+has_big_stars = true
+star_density = 0.02
+
+[node name="Core" parent="Background" instance=ExtResource("6_x7jve")]
+position = Vector2(312, 186)
+
+[node name="AbstractAsteroid" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(439, 106)
+
+[node name="AbstractAsteroid2" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(446, 240)
+
+[node name="AbstractAsteroid3" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(313, 326)
+
+[node name="AbstractAsteroid4" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(209, 77)
+
+[node name="AbstractAsteroid5" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(138, 202)
+
+[node name="AbstractAsteroid6" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(64, 85)
+
+[node name="AbstractAsteroid7" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(356, 13)
+
+[node name="AbstractAsteroid8" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(631, 57)
+
+[node name="AbstractAsteroid9" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(663, 229)
+
+[node name="AbstractAsteroid10" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(555, 341)
+
+[node name="AbstractAsteroid11" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(72, 360)
+
+[node name="AbstractAsteroid12" parent="Background" instance=ExtResource("7_lk772")]
+position = Vector2(-11, 198)
+
+[node name="MContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBox" type="HBoxContainer" parent="MContainer"]
+layout_mode = 2
+
+[node name="ButtonsVBox" type="VBoxContainer" parent="MContainer/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="MContainer/HBox/ButtonsVBox"]
+layout_mode = 2
+text = "Lobby ID"
+horizontal_alignment = 1
+
+[node name="IdLineEdit" type="LineEdit" parent="MContainer/HBox/ButtonsVBox"]
+layout_mode = 2
+editable = false
+
+[node name="CopyButton" type="Button" parent="MContainer/HBox/ButtonsVBox"]
+layout_mode = 2
+text = "Copy ID"
+
+[node name="StartButton" type="Button" parent="MContainer/HBox/ButtonsVBox"]
+layout_mode = 2
+text = "Start game"
+
+[node name="LeaveButton" type="Button" parent="MContainer/HBox/ButtonsVBox"]
+layout_mode = 2
+text = "Leave"
+
+[node name="PlayersVBox" type="VBoxContainer" parent="MContainer/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="PlayerDataElementSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://uu3ojm63ewpq")
+spawn_path = NodePath("../MContainer/HBox/PlayersVBox")
+script = ExtResource("8_s3oh8")
+
+[connection signal="pressed" from="MContainer/HBox/ButtonsVBox/CopyButton" to="." method="_on_copy_button_pressed"]
+[connection signal="pressed" from="MContainer/HBox/ButtonsVBox/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="MContainer/HBox/ButtonsVBox/LeaveButton" to="." method="_on_leave_button_pressed"]

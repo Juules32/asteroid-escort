@@ -1,0 +1,898 @@
+[gd_scene load_steps=20 format=3 uid="uid://bgru7ribg64w0"]
+
+[ext_resource type="Script" uid="uid://b8fkdhy56a10k" path="res://game_world/util/entity_spawner.gd" id="1_ae6u5"]
+[ext_resource type="Script" uid="uid://ctb7qsskw36mv" path="res://game_world/levels/test_level/test_level.gd" id="1_b3eik"]
+[ext_resource type="PackedScene" uid="uid://pmwkskspo6dm" path="res://game_world/entities/physics/structures/asteroids/abstract_asteroid.tscn" id="7_iotv2"]
+[ext_resource type="TileSet" uid="uid://dk38pk8bko20r" path="res://game_world/levels/test_level/Background_space.tres" id="8_7shxh"]
+[ext_resource type="PackedScene" uid="uid://ctcccp2pmjpek" path="res://gui/offscreen_indicators/offscreen_indicators.tscn" id="8_hq0hk"]
+[ext_resource type="Script" uid="uid://bfefw5jti7igu" path="res://game_world/levels/test_level/statistics.gd" id="8_jagja"]
+[ext_resource type="PackedScene" uid="uid://br2gbdmrxwxxc" path="res://gui/action_controls/action_controls.tscn" id="8_p1djk"]
+[ext_resource type="Script" uid="uid://c0ek1t0k6h8xu" path="res://game_world/levels/test_level/background_tile_map_layer.gd" id="9_bjjyv"]
+[ext_resource type="PackedScene" uid="uid://cipo3o66xf22k" path="res://gui/death_hud/death_hud.tscn" id="9_oqcye"]
+[ext_resource type="PackedScene" uid="uid://cn0wyydd80vps" path="res://gui/escape_menu/escape_menu.tscn" id="10_giy4h"]
+[ext_resource type="PackedScene" uid="uid://d07y8di1m4oa6" path="res://game_world/entities/physics/structures/core/goal.tscn" id="10_jagja"]
+[ext_resource type="PackedScene" uid="uid://da6cs4qgpxekc" path="res://gui/building_menu/building_menu.tscn" id="10_oqcye"]
+[ext_resource type="PackedScene" uid="uid://fa0canvkefkp" path="res://game_world/entities/physics/enemies/chaser_alien/chaser_alien.tscn" id="11_giy4h"]
+[ext_resource type="PackedScene" uid="uid://dwv8cartrses8" path="res://game_world/inventory/inventory.tscn" id="11_hq0hk"]
+[ext_resource type="PackedScene" uid="uid://dci8s31aeog3h" path="res://game_world/entities/physics/structures/core/core.tscn" id="11_m1knl"]
+[ext_resource type="PackedScene" uid="uid://ds5wcjhak8447" path="res://game_world/entities/physics/enemies/swarmer_alien/swarmer_alien.tscn" id="13_qodpo"]
+[ext_resource type="Script" uid="uid://bx5g3qcuk2jye" path="res://game_world/levels/test_level/speedrun_timer.gd" id="15_giy4h"]
+
+[sub_resource type="GDScript" id="GDScript_m1knl"]
+script/source = "extends CanvasLayer
+"
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m1knl"]
+bg_color = Color(0, 0.15686275, 0.6, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+
+[node name="TestLevel" type="Node2D"]
+script = ExtResource("1_b3eik")
+
+[node name="Players" type="MultiplayerSpawner" parent="."]
+script = ExtResource("1_ae6u5")
+metadata/_custom_type_script = "uid://b8fkdhy56a10k"
+
+[node name="Inventory" parent="." instance=ExtResource("11_hq0hk")]
+
+[node name="Background" type="Node2D" parent="."]
+z_index = -100
+
+[node name="BackgroundLayer1" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0.6, 0.6)
+repeat_size = Vector2(1600, 1600)
+
+[node name="Background" type="TileMapLayer" parent="Background/BackgroundLayer1"]
+show_behind_parent = true
+texture_filter = 1
+tile_set = ExtResource("8_7shxh")
+script = ExtResource("9_bjjyv")
+star_density = 0.05
+
+[node name="BackgroundLayer2" type="Parallax2D" parent="Background"]
+modulate = Color(1, 1, 1, 0.70980394)
+scroll_scale = Vector2(0.4, 0.4)
+repeat_size = Vector2(1600, 1600)
+
+[node name="Background" type="TileMapLayer" parent="Background/BackgroundLayer2"]
+show_behind_parent = true
+texture_filter = 1
+tile_set = ExtResource("8_7shxh")
+script = ExtResource("9_bjjyv")
+has_medium_stars = true
+star_density = 0.05
+
+[node name="BackgroundLayer3" type="Parallax2D" parent="Background"]
+modulate = Color(1, 1, 1, 0.3764706)
+scroll_scale = Vector2(0.2, 0.2)
+repeat_size = Vector2(1600, 1600)
+
+[node name="Background" type="TileMapLayer" parent="Background/BackgroundLayer3"]
+show_behind_parent = true
+texture_filter = 1
+tile_set = ExtResource("8_7shxh")
+script = ExtResource("9_bjjyv")
+has_medium_stars = true
+has_big_stars = true
+star_density = 0.02
+
+[node name="BuildingMenu" parent="." node_paths=PackedStringArray("inventory") instance=ExtResource("10_oqcye")]
+inventory = NodePath("../Inventory")
+
+[node name="OffscreenIndicators" parent="." instance=ExtResource("8_hq0hk")]
+
+[node name="ActionControls" parent="." node_paths=PackedStringArray("inventory") instance=ExtResource("8_p1djk")]
+inventory = NodePath("../Inventory")
+
+[node name="DeathHud" parent="." instance=ExtResource("9_oqcye")]
+
+[node name="EscapeMenu" parent="." instance=ExtResource("10_giy4h")]
+
+[node name="Asteroids" type="Node" parent="."]
+
+[node name="AbstractAsteroid7" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(241, 719)
+
+[node name="AbstractAsteroid8" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-493, -525)
+
+[node name="AbstractAsteroid9" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(332, -775)
+
+[node name="AbstractAsteroid10" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(752, -271)
+
+[node name="AbstractAsteroid11" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-757, -195)
+
+[node name="AbstractAsteroid12" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(407, -892)
+
+[node name="AbstractAsteroid2" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-728, 250)
+
+[node name="AbstractAsteroid3" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(760, 325)
+
+[node name="AbstractAsteroid4" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-330, -309)
+
+[node name="AbstractAsteroid5" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-285, 575)
+
+[node name="AbstractAsteroid6" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-348, 270)
+
+[node name="AbstractAsteroid" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(467, -391)
+
+[node name="AbstractAsteroid13" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1014, 416)
+
+[node name="AbstractAsteroid14" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(738, -405)
+
+[node name="AbstractAsteroid15" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(680, 531)
+
+[node name="AbstractAsteroid16" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1181, 562)
+
+[node name="AbstractAsteroid17" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(366, 588)
+
+[node name="AbstractAsteroid18" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1267, 421)
+
+[node name="AbstractAsteroid19" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-84, 813)
+
+[node name="AbstractAsteroid20" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1007, 778)
+
+[node name="AbstractAsteroid21" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(180, -304)
+
+[node name="AbstractAsteroid22" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-255, -760)
+
+[node name="AbstractAsteroid23" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(967, 557)
+
+[node name="AbstractAsteroid24" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(896, 442)
+
+[node name="AbstractAsteroid25" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1397, 514)
+
+[node name="AbstractAsteroid26" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1269, 671)
+
+[node name="AbstractAsteroid27" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(543, 1330)
+
+[node name="AbstractAsteroid28" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1413, 640)
+
+[node name="AbstractAsteroid29" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(864, 1238)
+
+[node name="AbstractAsteroid30" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1222, 812)
+
+[node name="AbstractAsteroid31" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1151, 697)
+
+[node name="AbstractAsteroid32" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(816, 519)
+
+[node name="AbstractAsteroid33" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(688, 676)
+
+[node name="AbstractAsteroid34" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(855, 822)
+
+[node name="AbstractAsteroid35" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(941, 681)
+
+[node name="AbstractAsteroid36" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(681, 1038)
+
+[node name="AbstractAsteroid37" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(641, 817)
+
+[node name="AbstractAsteroid38" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(570, 702)
+
+[node name="AbstractAsteroid39" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1071, 774)
+
+[node name="AbstractAsteroid40" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(943, 931)
+
+[node name="AbstractAsteroid41" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1110, 1077)
+
+[node name="AbstractAsteroid42" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1196, 936)
+
+[node name="AbstractAsteroid43" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(565, -947)
+
+[node name="AbstractAsteroid44" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(896, 1072)
+
+[node name="AbstractAsteroid45" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(825, 957)
+
+[node name="AbstractAsteroid46" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1392, -474)
+
+[node name="AbstractAsteroid47" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1264, -317)
+
+[node name="AbstractAsteroid48" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(325, -1233)
+
+[node name="AbstractAsteroid49" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1517, -312)
+
+[node name="AbstractAsteroid50" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(522, -1142)
+
+[node name="AbstractAsteroid51" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1217, -176)
+
+[node name="AbstractAsteroid52" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1146, -291)
+
+[node name="AbstractAsteroid53" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(635, -1279)
+
+[node name="AbstractAsteroid54" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1519, -62)
+
+[node name="AbstractAsteroid55" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(674, -976)
+
+[node name="AbstractAsteroid56" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(760, -1117)
+
+[node name="AbstractAsteroid57" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1512, 300)
+
+[node name="AbstractAsteroid58" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1472, 79)
+
+[node name="AbstractAsteroid59" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1401, -36)
+
+[node name="AbstractAsteroid60" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(239, -1184)
+
+[node name="AbstractAsteroid61" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(938, -57)
+
+[node name="AbstractAsteroid62" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1105, 89)
+
+[node name="AbstractAsteroid63" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1191, -52)
+
+[node name="AbstractAsteroid64" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(931, 305)
+
+[node name="AbstractAsteroid65" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(891, 84)
+
+[node name="AbstractAsteroid66" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(820, -31)
+
+[node name="AbstractAsteroid67" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1321, 41)
+
+[node name="AbstractAsteroid68" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1193, 198)
+
+[node name="AbstractAsteroid69" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1360, 344)
+
+[node name="AbstractAsteroid70" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1446, 203)
+
+[node name="AbstractAsteroid71" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1186, 560)
+
+[node name="AbstractAsteroid72" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1146, 339)
+
+[node name="AbstractAsteroid73" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1075, 224)
+
+[node name="AbstractAsteroid74" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1048, -38)
+
+[node name="AbstractAsteroid75" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(171, 801)
+
+[node name="AbstractAsteroid76" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(338, 947)
+
+[node name="AbstractAsteroid77" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(424, 806)
+
+[node name="AbstractAsteroid78" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-54, -1137)
+
+[node name="AbstractAsteroid79" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(124, 942)
+
+[node name="AbstractAsteroid80" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(992, -316)
+
+[node name="AbstractAsteroid81" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(554, 899)
+
+[node name="AbstractAsteroid82" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(426, 1056)
+
+[node name="AbstractAsteroid83" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(593, 1202)
+
+[node name="AbstractAsteroid84" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(722, 1151)
+
+[node name="AbstractAsteroid85" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-324, 1307)
+
+[node name="AbstractAsteroid86" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(379, 1197)
+
+[node name="AbstractAsteroid87" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(357, -1084)
+
+[node name="AbstractAsteroid88" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-27, 904)
+
+[node name="AbstractAsteroid89" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-155, 1061)
+
+[node name="AbstractAsteroid90" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(12, 1207)
+
+[node name="AbstractAsteroid91" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(98, 1066)
+
+[node name="AbstractAsteroid92" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-162, 1423)
+
+[node name="AbstractAsteroid93" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-202, 1202)
+
+[node name="AbstractAsteroid94" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(114, -1124)
+
+[node name="AbstractAsteroid95" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(228, 1159)
+
+[node name="AbstractAsteroid96" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(100, 1316)
+
+[node name="AbstractAsteroid97" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(286, -1488)
+
+[node name="AbstractAsteroid98" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(353, 1321)
+
+[node name="AbstractAsteroid99" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(835, -1213)
+
+[node name="AbstractAsteroid100" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(795, -1434)
+
+[node name="AbstractAsteroid101" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-18, 1342)
+
+[node name="AbstractAsteroid102" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1172, -1243)
+
+[node name="AbstractAsteroid103" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1044, -1086)
+
+[node name="AbstractAsteroid104" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1211, -940)
+
+[node name="AbstractAsteroid105" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1297, -1081)
+
+[node name="AbstractAsteroid106" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1037, -724)
+
+[node name="AbstractAsteroid107" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(997, -945)
+
+[node name="AbstractAsteroid108" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(926, -1060)
+
+[node name="AbstractAsteroid109" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(72, -1437)
+
+[node name="AbstractAsteroid110" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1299, -831)
+
+[node name="AbstractAsteroid111" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1466, -685)
+
+[node name="AbstractAsteroid112" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(477, -1406)
+
+[node name="AbstractAsteroid113" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1292, -469)
+
+[node name="AbstractAsteroid114" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1252, -690)
+
+[node name="AbstractAsteroid115" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1181, -805)
+
+[node name="AbstractAsteroid116" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(846, -983)
+
+[node name="AbstractAsteroid117" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(718, -826)
+
+[node name="AbstractAsteroid118" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(885, -680)
+
+[node name="AbstractAsteroid119" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(971, -821)
+
+[node name="AbstractAsteroid120" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(518, -679)
+
+[node name="AbstractAsteroid121" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(671, -685)
+
+[node name="AbstractAsteroid122" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(600, -800)
+
+[node name="AbstractAsteroid123" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1101, -728)
+
+[node name="AbstractAsteroid124" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(973, -571)
+
+[node name="AbstractAsteroid125" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1140, -425)
+
+[node name="AbstractAsteroid126" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(1226, -566)
+
+[node name="AbstractAsteroid127" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(966, -209)
+
+[node name="AbstractAsteroid128" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(926, -430)
+
+[node name="AbstractAsteroid129" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(855, -545)
+
+[node name="AbstractAsteroid130" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-598, 455)
+
+[node name="AbstractAsteroid131" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-726, 612)
+
+[node name="AbstractAsteroid132" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-559, 758)
+
+[node name="AbstractAsteroid133" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-664, 21)
+
+[node name="AbstractAsteroid134" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-724, 854)
+
+[node name="AbstractAsteroid135" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-773, 753)
+
+[node name="AbstractAsteroid136" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-844, 638)
+
+[node name="AbstractAsteroid137" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-343, 710)
+
+[node name="AbstractAsteroid138" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-471, 867)
+
+[node name="AbstractAsteroid139" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-304, 1013)
+
+[node name="AbstractAsteroid140" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-218, 872)
+
+[node name="AbstractAsteroid141" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-478, 1229)
+
+[node name="AbstractAsteroid142" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-518, 1008)
+
+[node name="AbstractAsteroid143" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-589, 893)
+
+[node name="AbstractAsteroid144" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-972, 785)
+
+[node name="AbstractAsteroid145" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1177, -83)
+
+[node name="AbstractAsteroid146" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-885, 1018)
+
+[node name="AbstractAsteroid147" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-848, 868)
+
+[node name="AbstractAsteroid148" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1289, 296)
+
+[node name="AbstractAsteroid149" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1337, 132)
+
+[node name="AbstractAsteroid150" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1347, -64)
+
+[node name="AbstractAsteroid151" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-669, 970)
+
+[node name="AbstractAsteroid152" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-797, 1127)
+
+[node name="AbstractAsteroid153" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-630, 1273)
+
+[node name="AbstractAsteroid154" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-544, 1132)
+
+[node name="AbstractAsteroid155" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1077, 641)
+
+[node name="AbstractAsteroid156" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1068, 481)
+
+[node name="AbstractAsteroid157" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-257, -1081)
+
+[node name="AbstractAsteroid158" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1297, -894)
+
+[node name="AbstractAsteroid159" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-859, -229)
+
+[node name="AbstractAsteroid160" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1258, -591)
+
+[node name="AbstractAsteroid161" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1172, -732)
+
+[node name="AbstractAsteroid162" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-866, 133)
+
+[node name="AbstractAsteroid163" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-906, -88)
+
+[node name="AbstractAsteroid164" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-977, -203)
+
+[node name="AbstractAsteroid165" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-160, -1282)
+
+[node name="AbstractAsteroid166" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1170, -482)
+
+[node name="AbstractAsteroid167" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1003, -336)
+
+[node name="AbstractAsteroid168" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-917, -477)
+
+[node name="AbstractAsteroid169" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(102, -918)
+
+[node name="AbstractAsteroid170" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-309, -1374)
+
+[node name="AbstractAsteroid171" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1288, -456)
+
+[node name="AbstractAsteroid172" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1057, -126)
+
+[node name="AbstractAsteroid173" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-134, -1469)
+
+[node name="AbstractAsteroid174" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-969, 177)
+
+[node name="AbstractAsteroid175" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(281, -993)
+
+[node name="AbstractAsteroid176" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1228, 442)
+
+[node name="AbstractAsteroid177" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1119, 199)
+
+[node name="AbstractAsteroid178" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-34, -937)
+
+[node name="AbstractAsteroid179" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1076, 45)
+
+[node name="AbstractAsteroid180" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-902, 326)
+
+[node name="AbstractAsteroid181" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-763, 432)
+
+[node name="AbstractAsteroid182" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1236, -250)
+
+[node name="AbstractAsteroid183" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(210, -863)
+
+[node name="AbstractAsteroid184" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-928, 500)
+
+[node name="AbstractAsteroid185" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1044, 340)
+
+[node name="AbstractAsteroid186" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-529, -1475)
+
+[node name="AbstractAsteroid187" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-657, -1318)
+
+[node name="AbstractAsteroid188" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-490, -1172)
+
+[node name="AbstractAsteroid189" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-404, -1313)
+
+[node name="AbstractAsteroid190" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-664, -956)
+
+[node name="AbstractAsteroid191" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-704, -1177)
+
+[node name="AbstractAsteroid192" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-775, -1292)
+
+[node name="AbstractAsteroid193" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-274, -1220)
+
+[node name="AbstractAsteroid194" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-402, -1063)
+
+[node name="AbstractAsteroid195" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-235, -917)
+
+[node name="AbstractAsteroid196" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-149, -1058)
+
+[node name="AbstractAsteroid197" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-409, -701)
+
+[node name="AbstractAsteroid198" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(10, -1279)
+
+[node name="AbstractAsteroid199" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-520, -1037)
+
+[node name="AbstractAsteroid200" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(50, -1560)
+
+[node name="AbstractAsteroid201" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-983, -1058)
+
+[node name="AbstractAsteroid202" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-816, -912)
+
+[node name="AbstractAsteroid203" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-730, -1053)
+
+[node name="AbstractAsteroid204" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-990, -696)
+
+[node name="AbstractAsteroid205" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1030, -917)
+
+[node name="AbstractAsteroid206" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-1101, -1032)
+
+[node name="AbstractAsteroid207" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(209, -1309)
+
+[node name="AbstractAsteroid208" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-728, -803)
+
+[node name="AbstractAsteroid209" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-561, -657)
+
+[node name="AbstractAsteroid210" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-475, -798)
+
+[node name="AbstractAsteroid211" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-735, -441)
+
+[node name="AbstractAsteroid212" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-775, -662)
+
+[node name="AbstractAsteroid213" parent="Asteroids" instance=ExtResource("7_iotv2")]
+position = Vector2(-846, -777)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="ChaserAlien" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(-152, -628)
+rotation = 0.8484756
+
+[node name="ChaserAlien2" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(-615, -1103)
+rotation = 0.6549175
+
+[node name="ChaserAlien3" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(-1120, -347)
+rotation = -0.8266328
+
+[node name="ChaserAlien4" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(-767, 105)
+rotation = 2.6117425
+
+[node name="ChaserAlien5" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(-1189, 561)
+rotation = 0.8880606
+
+[node name="ChaserAlien6" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(-559, 633)
+rotation = 0.681744
+
+[node name="ChaserAlien7" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(-324, 1191)
+rotation = 0.8948855
+
+[node name="ChaserAlien8" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(527, 1085)
+rotation = -0.9068455
+
+[node name="ChaserAlien9" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(1097, 451)
+rotation = 0.22203344
+
+[node name="ChaserAlien10" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(972, 83)
+rotation = 1.0380349
+
+[node name="ChaserAlien11" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(1390, -183)
+rotation = -0.9451214
+
+[node name="ChaserAlien12" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(1136, -1041)
+rotation = 2.1217413
+
+[node name="ChaserAlien13" parent="Enemies" instance=ExtResource("11_giy4h")]
+position = Vector2(449, -1026)
+rotation = 0.69810164
+
+[node name="SwarmerAlien" parent="Enemies" instance=ExtResource("13_qodpo")]
+position = Vector2(663, -537)
+
+[node name="EnemySpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://fa0canvkefkp", "uid://ds5wcjhak8447")
+spawn_path = NodePath("../Enemies")
+
+[node name="Goal" parent="." instance=ExtResource("10_jagja")]
+position = Vector2(1632, -1271)
+
+[node name="Core" parent="." instance=ExtResource("11_m1knl")]
+z_index = 1
+
+[node name="UserInterface" type="CanvasLayer" parent="."]
+script = SubResource("GDScript_m1knl")
+
+[node name="Statistics" type="VBoxContainer" parent="UserInterface"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -183.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 66.0
+grow_horizontal = 0
+script = ExtResource("8_jagja")
+
+[node name="Ping" type="Label" parent="UserInterface/Statistics"]
+layout_mode = 2
+
+[node name="Waiting Packets" type="Label" parent="UserInterface/Statistics"]
+layout_mode = 2
+
+[node name="FPS" type="Label" parent="UserInterface/Statistics"]
+layout_mode = 2
+
+[node name="Timer" type="Timer" parent="UserInterface/Statistics"]
+wait_time = 0.1
+autostart = true
+
+[node name="SpeedrunTimeLabel" type="Label" parent="UserInterface/Statistics"]
+layout_mode = 2
+
+[node name="Menu" type="PanelContainer" parent="UserInterface"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_m1knl")
+
+[node name="PContainer" type="PanelContainer" parent="UserInterface/Menu"]
+layout_mode = 2
+
+[node name="MContainer" type="MarginContainer" parent="UserInterface/Menu/PContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBox" type="HBoxContainer" parent="UserInterface/Menu/PContainer/MContainer"]
+layout_mode = 2
+
+[node name="ButtonsVBox" type="VBoxContainer" parent="UserInterface/Menu/PContainer/MContainer/HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="UserInterface/Menu/PContainer/MContainer/HBox/ButtonsVBox"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="UserInterface/Menu/PContainer/MContainer/HBox/ButtonsVBox/MarginContainer"]
+layout_mode = 2
+text = "Menu:"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="UserInterface/Menu/PContainer/MContainer/HBox/ButtonsVBox"]
+layout_mode = 2
+text = "Restart"
+
+[node name="BackButton" type="Button" parent="UserInterface/Menu/PContainer/MContainer/HBox/ButtonsVBox"]
+layout_mode = 2
+text = "Back"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UserInterface/Menu/PContainer/MContainer/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GameoverMessage" type="Label" parent="UserInterface/Menu/PContainer/MContainer/HBox/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 50
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerMessage" type="Label" parent="UserInterface/Menu/PContainer/MContainer/HBox/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Test"
+horizontal_alignment = 1
+
+[node name="SpeedrunTimer" type="Timer" parent="UserInterface"]
+script = ExtResource("15_giy4h")
+
+[connection signal="timeout" from="UserInterface/Statistics/Timer" to="UserInterface/Statistics" method="_on_timer_timeout"]
+[connection signal="pressed" from="UserInterface/Menu/PContainer/MContainer/HBox/ButtonsVBox/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="UserInterface/Menu/PContainer/MContainer/HBox/ButtonsVBox/BackButton" to="." method="_on_back_button_pressed"]

@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://jm1dsoj3r51n"]
+
+[ext_resource type="PackedScene" uid="uid://dq730jrsmftts" path="res://game_world/entities/physics/synchronized_rigidbody_2d.tscn" id="1_5yx1l"]
+[ext_resource type="Script" uid="uid://dytjge4c00k1w" path="res://game_world/entities/physics/structures/structure.gd" id="2_dy2vf"]
+[ext_resource type="Script" uid="uid://qfourbeu2f45" path="res://game_world/entities/physics/structures/block_spawner.gd" id="3_dy2vf"]
+
+[node name="Structure" node_paths=PackedStringArray("block_spawner") instance=ExtResource("1_5yx1l")]
+center_of_mass_mode = 1
+script = ExtResource("2_dy2vf")
+block_spawner = NodePath("BlockSpawner")
+
+[node name="BlockSpawner" type="MultiplayerSpawner" parent="." index="1"]
+_spawnable_scenes = PackedStringArray("uid://d3r7b243rbt2v")
+spawn_path = NodePath("..")
+script = ExtResource("3_dy2vf")

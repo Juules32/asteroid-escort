@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cw1kl0xt8erw0"]
+
+[ext_resource type="Script" uid="uid://dvogjv0t3a5tq" path="res://game_world/entities/physics/movement_entity.gd" id="1_c3ejm"]
+[ext_resource type="PackedScene" uid="uid://dq730jrsmftts" path="res://game_world/entities/physics/synchronized_rigidbody_2d.tscn" id="1_rai8c"]
+
+[node name="MovementEntity" instance=ExtResource("1_rai8c")]
+script = ExtResource("1_c3ejm")
+movement_speed = 50.0
+movement_deaccel_mult = 1.0
+rotation_speed = 10.0
+rotation_deaccel_mult = 0.0

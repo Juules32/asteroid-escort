@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="BlockSpecification" load_steps=10 format=3 uid="uid://bk4u5pjeleghw"]
+
+[ext_resource type="Script" uid="uid://d2ux85ttlc4sv" path="res://game_world/entities/physics/structures/blocks/anchor.gd" id="1_x17e1"]
+[ext_resource type="PackedScene" uid="uid://braenrjsywgm7" path="res://game_world/entities/physics/structures/blocks/thruster_block.tscn" id="2_vh7ji"]
+[ext_resource type="Script" uid="uid://dwcei2vdx3v18" path="res://game_world/entities/physics/structures/blocks/block_specification.gd" id="3_c58oe"]
+[ext_resource type="Texture2D" uid="uid://c1s373dnxlac2" path="res://game_world/entities/physics/structures/blocks/block_specifications/assets/construct_thruster.png" id="4_a5t3f"]
+
+[sub_resource type="Resource" id="Resource_k03w2"]
+script = ExtResource("1_x17e1")
+point = Vector2(0, 6)
+normal = 4.71238898038469
+metadata/_custom_type_script = "uid://d2ux85ttlc4sv"
+
+[sub_resource type="Resource" id="Resource_x17e1"]
+script = ExtResource("1_x17e1")
+point = Vector2(-6, 0)
+normal = 3.141592653589793
+metadata/_custom_type_script = "uid://d2ux85ttlc4sv"
+
+[sub_resource type="Resource" id="Resource_vh7ji"]
+script = ExtResource("1_x17e1")
+point = Vector2(0, -6)
+normal = 1.5707963267948966
+metadata/_custom_type_script = "uid://d2ux85ttlc4sv"
+
+[sub_resource type="Resource" id="Resource_c58oe"]
+script = ExtResource("1_x17e1")
+point = Vector2(6, 0)
+metadata/_custom_type_script = "uid://d2ux85ttlc4sv"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uhutg"]
+size = Vector2(12, 12)
+
+[resource]
+script = ExtResource("3_c58oe")
+texture = ExtResource("4_a5t3f")
+shape = SubResource("RectangleShape2D_uhutg")
+mass = 6.0
+instance_scene = ExtResource("2_vh7ji")
+anchors = Array[ExtResource("1_x17e1")]([SubResource("Resource_k03w2"), SubResource("Resource_x17e1"), SubResource("Resource_vh7ji"), SubResource("Resource_c58oe")])
+ores = Dictionary[int, int]({
+1: 1
+})
+recipe = Dictionary[int, int]({
+0: 1,
+1: 2
+})
+build_menu_description = "Thruster can push an object"
+stackable = false
+metadata/_custom_type_script = "uid://dwcei2vdx3v18"

@@ -1,0 +1,146 @@
+[gd_scene load_steps=8 format=3 uid="uid://yecgbfvoxbot"]
+
+[ext_resource type="Script" uid="uid://cujtkcafetpah" path="res://gui/tutorial/tutorial_ui.gd" id="1_wbiio"]
+[ext_resource type="AudioStream" uid="uid://dqwitvdo176gy" path="res://gui/tutorial/Tutorial step completed-bounce-1.wav" id="2_6wrng"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cidka"]
+bg_color = Color(0.23529412, 0.36862746, 0.54509807, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.78039217, 0.8117647, 0.8, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wbiio"]
+resource_local_to_scene = true
+bg_color = Color(0.1764706, 0.20392157, 0.6392157, 0)
+border_width_right = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6wrng"]
+resource_local_to_scene = true
+bg_color = Color(0.1764706, 0.20392157, 0.6392157, 0)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6wrng"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cjlok"]
+bg_color = Color(1, 1, 1, 0.26666668)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="TutorialGUI" type="CanvasLayer"]
+script = ExtResource("1_wbiio")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.01
+anchor_right = 0.5
+anchor_bottom = 0.01
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cidka")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+clip_contents = true
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wbiio")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="TaskNumber" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "TASK 6"
+horizontal_alignment = 1
+
+[node name="TaskNumberCount" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "out of 8"
+horizontal_alignment = 1
+
+[node name="PanelContainer2" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6wrng")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer"]
+layout_mode = 2
+
+[node name="TaskDescription" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Constructing a Turret"
+horizontal_alignment = 1
+
+[node name="TaskHint" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/PanelContainer2/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Do defend the core build a turret. For that you need 5 'Iron'"
+horizontal_alignment = 1
+
+[node name="PanelContainer3" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SkipButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6wrng")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cjlok")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6wrng")
+text = "Skip"
+
+[node name="TimerCloseTutorial" type="Timer" parent="."]
+unique_name_in_owner = true
+
+[node name="SuccessTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_6wrng")
+volume_db = -8.864
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PanelContainer3/SkipButton" to="." method="_on_button_pressed"]
+[connection signal="timeout" from="TimerCloseTutorial" to="." method="_on_timer_close_tutorial_timeout"]
+[connection signal="timeout" from="SuccessTimer" to="." method="_on_success_timer_timeout"]

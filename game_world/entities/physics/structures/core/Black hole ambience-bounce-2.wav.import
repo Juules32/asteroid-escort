@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://3tki2ipmqpq5"
+path="res://.godot/imported/Black hole ambience-bounce-2.wav-4a3c4d836e26a2e4d27e2be5e0f1ccb2.sample"
+
+[deps]
+
+source_file="res://game_world/entities/physics/structures/core/Black hole ambience-bounce-2.wav"
+dest_files=["res://.godot/imported/Black hole ambience-bounce-2.wav-4a3c4d836e26a2e4d27e2be5e0f1ccb2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

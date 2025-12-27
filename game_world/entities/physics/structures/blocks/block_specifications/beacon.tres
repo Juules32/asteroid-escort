@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="BlockSpecification" load_steps=6 format=3 uid="uid://b4mu8dem5fdfg"]
+
+[ext_resource type="Script" uid="uid://d2ux85ttlc4sv" path="res://game_world/entities/physics/structures/blocks/anchor.gd" id="1_ttsfd"]
+[ext_resource type="PackedScene" uid="uid://dmhiix28awcyw" path="res://game_world/entities/physics/structures/blocks/beacon_block.tscn" id="2_ttsfd"]
+[ext_resource type="Script" uid="uid://dwcei2vdx3v18" path="res://game_world/entities/physics/structures/blocks/block_specification.gd" id="3_7v8p7"]
+[ext_resource type="Texture2D" uid="uid://pcror2sugbo4" path="res://game_world/entities/physics/structures/blocks/block_specifications/assets/construct_beacon.png" id="3_f4c10"]
+
+[sub_resource type="Resource" id="Resource_ttsfd"]
+script = ExtResource("1_ttsfd")
+point = Vector2(0, 8)
+normal = 4.71238898038469
+metadata/_custom_type_script = "uid://d2ux85ttlc4sv"
+
+[resource]
+script = ExtResource("3_7v8p7")
+texture = ExtResource("3_f4c10")
+instance_scene = ExtResource("2_ttsfd")
+anchors = Array[ExtResource("1_ttsfd")]([SubResource("Resource_ttsfd")])
+ores = Dictionary[int, int]({
+2: 2
+})
+recipe = Dictionary[int, int]({
+1: 1
+})
+build_menu_description = "Beacon indicates it's own position"
+stackable = false
+metadata/_custom_type_script = "uid://dwcei2vdx3v18"

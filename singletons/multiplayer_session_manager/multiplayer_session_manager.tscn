@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbw25gjmmdhst"]
+
+[ext_resource type="Script" uid="uid://cc0dx3tpb44tn" path="res://singletons/multiplayer_session_manager/multiplayer_session_manager.gd" id="1_e7hkt"]
+[ext_resource type="PackedScene" uid="uid://yjlneexxasv1" path="res://singletons/multiplayer_session_manager/util/debug_session_manager.tscn" id="3_7h24j"]
+
+[node name="MultiplayerSessionManager" type="Node"]
+script = ExtResource("1_e7hkt")
+
+[node name="DebugSessionManager" parent="." instance=ExtResource("3_7h24j")]

@@ -1,0 +1,1981 @@
+[gd_scene load_steps=23 format=3 uid="uid://b2tsepvy3qgpj"]
+
+[ext_resource type="Script" uid="uid://nnb48fn8jyg2" path="res://game_world/levels/level_1/level_1.gd" id="1_htiji"]
+[ext_resource type="Script" uid="uid://b8fkdhy56a10k" path="res://game_world/util/entity_spawner.gd" id="2_bdm82"]
+[ext_resource type="PackedScene" uid="uid://dwv8cartrses8" path="res://game_world/inventory/inventory.tscn" id="3_h4jm1"]
+[ext_resource type="TileSet" uid="uid://dk38pk8bko20r" path="res://game_world/levels/test_level/Background_space.tres" id="4_7td8u"]
+[ext_resource type="Script" uid="uid://c0ek1t0k6h8xu" path="res://game_world/levels/test_level/background_tile_map_layer.gd" id="5_y1asr"]
+[ext_resource type="PackedScene" uid="uid://da6cs4qgpxekc" path="res://gui/building_menu/building_menu.tscn" id="6_y48ds"]
+[ext_resource type="PackedScene" uid="uid://ctcccp2pmjpek" path="res://gui/offscreen_indicators/offscreen_indicators.tscn" id="7_a3y8n"]
+[ext_resource type="PackedScene" uid="uid://br2gbdmrxwxxc" path="res://gui/action_controls/action_controls.tscn" id="8_3u25o"]
+[ext_resource type="PackedScene" uid="uid://cipo3o66xf22k" path="res://gui/death_hud/death_hud.tscn" id="9_nnbsj"]
+[ext_resource type="PackedScene" uid="uid://cn0wyydd80vps" path="res://gui/escape_menu/escape_menu.tscn" id="10_yycuy"]
+[ext_resource type="PackedScene" uid="uid://pmwkskspo6dm" path="res://game_world/entities/physics/structures/asteroids/abstract_asteroid.tscn" id="11_pnusr"]
+[ext_resource type="PackedScene" uid="uid://d07y8di1m4oa6" path="res://game_world/entities/physics/structures/core/goal.tscn" id="13_k2god"]
+[ext_resource type="PackedScene" uid="uid://dci8s31aeog3h" path="res://game_world/entities/physics/structures/core/core.tscn" id="14_4dyvu"]
+[ext_resource type="AudioStream" uid="uid://c8c42nv8254ty" path="res://game_world/levels/level_1/Game lost-bounce-1.wav" id="15_66xjv"]
+[ext_resource type="Script" uid="uid://bfefw5jti7igu" path="res://game_world/levels/test_level/statistics.gd" id="15_xge16"]
+[ext_resource type="PackedScene" uid="uid://fa0canvkefkp" path="res://game_world/entities/physics/enemies/chaser_alien/chaser_alien.tscn" id="16_fkije"]
+[ext_resource type="Script" uid="uid://bx5g3qcuk2jye" path="res://game_world/levels/test_level/speedrun_timer.gd" id="16_m0pso"]
+[ext_resource type="Theme" uid="uid://bx8gav1i2lrs7" path="res://gui/main_menu/default_menu_theme.tres" id="17_87jm2"]
+[ext_resource type="PackedScene" uid="uid://ds5wcjhak8447" path="res://game_world/entities/physics/enemies/swarmer_alien/swarmer_alien.tscn" id="17_y25pn"]
+[ext_resource type="PackedScene" uid="uid://yecgbfvoxbot" path="res://gui/tutorial/tutorial_ui.tscn" id="18_y25pn"]
+[ext_resource type="PackedScene" uid="uid://dx3yrvc72fhgq" path="res://game_world/enemy_spawner/enemy_spawner.tscn" id="19_k2dyu"]
+
+[sub_resource type="GDScript" id="GDScript_m1knl"]
+script/source = "extends CanvasLayer
+"
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("1_htiji")
+
+[node name="Players" type="MultiplayerSpawner" parent="."]
+script = ExtResource("2_bdm82")
+metadata/_custom_type_script = "uid://b8fkdhy56a10k"
+
+[node name="Inventory" parent="." instance=ExtResource("3_h4jm1")]
+
+[node name="Background" type="Node2D" parent="."]
+z_index = -100
+
+[node name="BackgroundLayer1" type="Parallax2D" parent="Background"]
+scroll_scale = Vector2(0.6, 0.6)
+repeat_size = Vector2(1600, 1600)
+
+[node name="Background" type="TileMapLayer" parent="Background/BackgroundLayer1"]
+show_behind_parent = true
+texture_filter = 1
+tile_set = ExtResource("4_7td8u")
+script = ExtResource("5_y1asr")
+star_density = 0.05
+
+[node name="BackgroundLayer2" type="Parallax2D" parent="Background"]
+modulate = Color(1, 1, 1, 0.70980394)
+scroll_scale = Vector2(0.4, 0.4)
+repeat_size = Vector2(1600, 1600)
+
+[node name="Background" type="TileMapLayer" parent="Background/BackgroundLayer2"]
+show_behind_parent = true
+texture_filter = 1
+tile_set = ExtResource("4_7td8u")
+script = ExtResource("5_y1asr")
+has_medium_stars = true
+star_density = 0.05
+
+[node name="BackgroundLayer3" type="Parallax2D" parent="Background"]
+modulate = Color(1, 1, 1, 0.3764706)
+scroll_scale = Vector2(0.2, 0.2)
+repeat_size = Vector2(1600, 1600)
+
+[node name="Background" type="TileMapLayer" parent="Background/BackgroundLayer3"]
+show_behind_parent = true
+texture_filter = 1
+tile_set = ExtResource("4_7td8u")
+script = ExtResource("5_y1asr")
+has_medium_stars = true
+has_big_stars = true
+star_density = 0.02
+
+[node name="BuildingMenu" parent="." node_paths=PackedStringArray("inventory") instance=ExtResource("6_y48ds")]
+inventory = NodePath("../Inventory")
+
+[node name="ActionControls" parent="." node_paths=PackedStringArray("inventory") instance=ExtResource("8_3u25o")]
+inventory = NodePath("../Inventory")
+
+[node name="DeathHud" parent="." instance=ExtResource("9_nnbsj")]
+
+[node name="OffscreenIndicators" parent="." node_paths=PackedStringArray("tutorial") instance=ExtResource("7_a3y8n")]
+layer = 5
+tutorial = NodePath("../TutorialGUI")
+
+[node name="EscapeMenu" parent="." instance=ExtResource("10_yycuy")]
+
+[node name="Asteroids" type="Node" parent="."]
+
+[node name="ScriptedAsteroids" type="Node" parent="Asteroids"]
+
+[node name="IronAsteroid" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(-69, 145)
+mass = 1.0001
+asteroid_type = 1
+predefined_ores = Dictionary[int, int]({
+0: 2
+})
+
+[node name="IronAsteroid2" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(-250, 17)
+mass = 1.0001
+asteroid_type = 2
+predefined_ores = Dictionary[int, int]({
+0: 3
+})
+
+[node name="IronAsteroid3" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(513, -142)
+mass = 1.0001
+asteroid_type = 1
+predefined_ores = Dictionary[int, int]({
+0: 2
+})
+
+[node name="IronAsteroid4" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(197, -359)
+mass = 1.0001
+asteroid_type = 2
+predefined_ores = Dictionary[int, int]({
+0: 3
+})
+
+[node name="IronAsteroid5" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(404, 268)
+mass = 1.0001
+asteroid_type = 1
+predefined_ores = Dictionary[int, int]({
+0: 2
+})
+
+[node name="GoldAsteroid3" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(495, 114)
+mass = 1.0001
+asteroid_type = 1
+predefined_ores = Dictionary[int, int]({
+1: 2
+})
+
+[node name="GoldAsteroid2" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(-218, -217)
+mass = 1.0001
+asteroid_type = 1
+predefined_ores = Dictionary[int, int]({
+1: 2
+})
+
+[node name="GoldAsteroid4" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(13, -290)
+mass = 1.0001
+asteroid_type = 1
+predefined_ores = Dictionary[int, int]({
+1: 2
+})
+
+[node name="TitaniumAsteroid" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(168, 218)
+mass = 1.0001
+asteroid_type = 3
+predefined_ores = Dictionary[int, int]({
+2: 3
+})
+
+[node name="TitaniumAsteroid2" parent="Asteroids/ScriptedAsteroids" groups=["tutorial_indicator_ASTEROID"] instance=ExtResource("11_pnusr")]
+position = Vector2(390, -302)
+mass = 1.0001
+asteroid_type = 2
+predefined_ores = Dictionary[int, int]({
+2: 3
+})
+
+[node name="ValuableAsteroids" type="Node" parent="Asteroids"]
+
+[node name="AbstractAsteroid" parent="Asteroids/ValuableAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1582, 113)
+mass = 50.0001
+max_ores = 20
+highly_valuable_asteroid = true
+asteroid_type = 3
+
+[node name="AbstractAsteroid2" parent="Asteroids/ValuableAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3036, -79.00006)
+mass = 50.0001
+max_ores = 30
+highly_valuable_asteroid = true
+asteroid_type = 3
+
+[node name="AbstractAsteroid3" parent="Asteroids/ValuableAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(441, -2610)
+mass = 50.0001
+max_ores = 30
+highly_valuable_asteroid = true
+asteroid_type = 3
+
+[node name="AbstractAsteroid4" parent="Asteroids/ValuableAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(562.9999, -1306)
+rotation = 0.85619235
+mass = 50.0001
+max_ores = 20
+highly_valuable_asteroid = true
+asteroid_type = 3
+
+[node name="AbstractAsteroid5" parent="Asteroids/ValuableAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2258, -2678)
+mass = 50.0001
+max_ores = 30
+highly_valuable_asteroid = true
+asteroid_type = 3
+
+[node name="AbstractAsteroid6" parent="Asteroids/ValuableAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3462, -1405)
+mass = 50.0001
+max_ores = 30
+highly_valuable_asteroid = true
+asteroid_type = 3
+
+[node name="AbstractAsteroid11" parent="Asteroids/ValuableAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5339, -3094.9998)
+mass = 50.0001
+max_ores = 30
+highly_valuable_asteroid = true
+asteroid_type = 3
+
+[node name="AbstractAsteroid12" parent="Asteroids/ValuableAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3532, -4429)
+mass = 50.0001
+max_ores = 30
+highly_valuable_asteroid = true
+asteroid_type = 3
+
+[node name="RandomAsteroids" type="Node" parent="Asteroids"]
+
+[node name="AbstractAsteroid" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4226, -975)
+mass = 1.0001
+
+[node name="AbstractAsteroid93" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(7294, -2303)
+mass = 1.0001
+
+[node name="AbstractAsteroid283" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(8218, -1334)
+mass = 1.0001
+
+[node name="AbstractAsteroid328" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(8774, -2801)
+mass = 1.0001
+
+[node name="AbstractAsteroid329" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(7293, -411)
+mass = 1.0001
+
+[node name="AbstractAsteroid330" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(9080, -5551)
+mass = 1.0001
+
+[node name="AbstractAsteroid331" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(8276, -7042)
+mass = 1.0001
+
+[node name="AbstractAsteroid332" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6711, -7317)
+mass = 1.0001
+
+[node name="AbstractAsteroid333" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4670, -7370)
+mass = 1.0001
+
+[node name="AbstractAsteroid334" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2037, -7032)
+mass = 1.0001
+
+[node name="AbstractAsteroid335" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3338, -7487)
+mass = 1.0001
+
+[node name="AbstractAsteroid336" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6743, -5457)
+mass = 1.0001
+
+[node name="AbstractAsteroid2" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4122, -636)
+mass = 1.0001
+
+[node name="AbstractAsteroid3" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3996, -1714)
+mass = 1.0001
+
+[node name="AbstractAsteroid4" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3895, -1365)
+mass = 1.0001
+
+[node name="AbstractAsteroid5" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5252, -950)
+mass = 1.0001
+
+[node name="AbstractAsteroid6" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5569, -5665)
+mass = 1.0001
+
+[node name="AbstractAsteroid7" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4894, -1173)
+mass = 1.0001
+
+[node name="AbstractAsteroid8" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4793, -824)
+mass = 1.0001
+
+[node name="AbstractAsteroid9" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4230, -6188)
+mass = 1.0001
+
+[node name="AbstractAsteroid10" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3402, 197)
+mass = 1.0001
+
+[node name="AbstractAsteroid11" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3301, -722)
+mass = 1.0001
+
+[node name="AbstractAsteroid12" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1893, -351)
+mass = 1.0001
+
+[node name="AbstractAsteroid13" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2497, -4970)
+mass = 1.0001
+
+[node name="AbstractAsteroid14" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2405, -4452)
+mass = 1.0001
+
+[node name="AbstractAsteroid15" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4444, -643)
+mass = 1.0001
+
+[node name="AbstractAsteroid16" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2072, -4777)
+mass = 1.0001
+
+[node name="AbstractAsteroid17" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3953, -4381)
+mass = 1.0001
+
+[node name="AbstractAsteroid18" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3362, -3542)
+mass = 1.0001
+
+[node name="AbstractAsteroid19" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3335, -4752)
+mass = 1.0001
+
+[node name="AbstractAsteroid20" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2853, -3886)
+mass = 1.0001
+
+[node name="AbstractAsteroid21" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2889, -4424)
+mass = 1.0001
+
+[node name="AbstractAsteroid22" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2543, -3830)
+mass = 1.0001
+
+[node name="AbstractAsteroid23" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4786, -5561)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid24" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4030, -3930)
+mass = 1.0001
+
+[node name="AbstractAsteroid25" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1350, -5059)
+mass = 1.0001
+
+[node name="AbstractAsteroid26" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2989, -3457)
+mass = 1.0001
+
+[node name="AbstractAsteroid27" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3733, -5428)
+mass = 1.0001
+
+[node name="AbstractAsteroid28" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5794, -4975)
+mass = 1.0001
+
+[node name="AbstractAsteroid29" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3396, -5644)
+mass = 1.0001
+
+[node name="AbstractAsteroid30" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4732, -5157)
+mass = 1.0001
+
+[node name="AbstractAsteroid31" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3519, 543)
+mass = 1.0001
+
+[node name="AbstractAsteroid32" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2574, -5469)
+mass = 1.0001
+
+[node name="AbstractAsteroid33" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5131, -2239)
+mass = 1.0001
+
+[node name="AbstractAsteroid34" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4894, -1618)
+mass = 1.0001
+
+[node name="AbstractAsteroid35" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4622, -2583)
+mass = 1.0001
+
+[node name="AbstractAsteroid36" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4276, -1989)
+mass = 1.0001
+
+[node name="AbstractAsteroid37" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2904, -905)
+mass = 1.0001
+
+[node name="AbstractAsteroid38" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3918, -2105)
+mass = 1.0001
+
+[node name="AbstractAsteroid39" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5799, -2627)
+mass = 1.0001
+
+[node name="AbstractAsteroid40" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5453, -1843)
+mass = 1.0001
+
+[node name="AbstractAsteroid41" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3093, 106.00006)
+mass = 1.0001
+
+[node name="AbstractAsteroid42" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3037, 447)
+mass = 1.0001
+
+[node name="AbstractAsteroid43" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5799, -1662)
+mass = 1.0001
+
+[node name="AbstractAsteroid44" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5698, -1123)
+mass = 1.0001
+
+[node name="AbstractAsteroid45" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4054, -66)
+mass = 1.0001
+
+[node name="AbstractAsteroid46" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3953, 283)
+mass = 1.0001
+
+[node name="AbstractAsteroid47" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3832, -561)
+mass = 1.0001
+
+[node name="AbstractAsteroid48" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3404, -388)
+mass = 1.0001
+
+[node name="AbstractAsteroid49" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3548, -1764)
+mass = 1.0001
+
+[node name="AbstractAsteroid52" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3233, -2089)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid54" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2986, -2013)
+mass = 1.0001
+
+[node name="AbstractAsteroid56" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2873, -2427)
+mass = 1.0001
+
+[node name="AbstractAsteroid58" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(474, -852)
+mass = 1.0001
+
+[node name="AbstractAsteroid60" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4048, -2517)
+mass = 1.0001
+
+[node name="AbstractAsteroid62" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2092, -219)
+mass = 1.0001
+
+[node name="AbstractAsteroid63" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2216, -1308)
+mass = 1.0001
+
+[node name="AbstractAsteroid64" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2247, -570)
+mass = 1.0001
+
+[node name="AbstractAsteroid65" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2296, -903)
+mass = 1.0001
+
+[node name="AbstractAsteroid66" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1698, -204)
+mass = 1.0001
+
+[node name="AbstractAsteroid67" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3172, -1547)
+mass = 1.0001
+
+[node name="AbstractAsteroid68" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1189, -548)
+mass = 1.0001
+
+[node name="AbstractAsteroid69" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2629, -834)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid70" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2426, 65)
+mass = 1.0001
+
+[node name="AbstractAsteroid71" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2957, -1431)
+mass = 1.0001
+
+[node name="AbstractAsteroid72" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2817, -104.99994)
+mass = 1.0001
+
+[node name="AbstractAsteroid75" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2069, -2090)
+mass = 1.0001
+
+[node name="AbstractAsteroid76" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3518, -2082)
+mass = 1.0001
+
+[node name="AbstractAsteroid78" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3644, -2206)
+mass = 1.0001
+
+[node name="AbstractAsteroid79" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3219, -2406)
+mass = 1.0001
+
+[node name="AbstractAsteroid80" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2870, -1790)
+mass = 1.0001
+
+[node name="AbstractAsteroid82" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1315, -3178)
+mass = 1.0001
+
+[node name="AbstractAsteroid83" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2394, -3248)
+mass = 1.0001
+
+[node name="AbstractAsteroid84" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1863, -2618)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid86" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2096, -3098)
+mass = 1.0001
+
+[node name="AbstractAsteroid87" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3571, -3292)
+mass = 1.0001
+
+[node name="AbstractAsteroid88" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1874, -3403)
+mass = 1.0001
+
+[node name="AbstractAsteroid91" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2220, -3222)
+mass = 1.0001
+
+[node name="AbstractAsteroid94" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3491, -2504)
+mass = 1.0001
+
+[node name="AbstractAsteroid95" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3370, -3348)
+mass = 1.0001
+
+[node name="AbstractAsteroid97" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3447, -2315)
+mass = 1.0001
+
+[node name="AbstractAsteroid98" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3127, -1851)
+mass = 1.0001
+
+[node name="AbstractAsteroid102" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2325, -2396)
+mass = 1.0001
+
+[node name="AbstractAsteroid104" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1025, -858)
+mass = 1.0001
+
+[node name="AbstractAsteroid105" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1390, -1669)
+mass = 1.0001
+
+[node name="AbstractAsteroid106" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1396, -1288)
+mass = 1.0001
+asteroid_type = 6
+
+[node name="AbstractAsteroid107" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3446, -1671)
+mass = 1.0001
+
+[node name="AbstractAsteroid110" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2074, -3684)
+mass = 1.0001
+
+[node name="AbstractAsteroid113" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3251, -3728)
+mass = 1.0001
+
+[node name="AbstractAsteroid116" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3150, -2224)
+mass = 1.0001
+
+[node name="AbstractAsteroid117" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(163, -2077)
+mass = 1.0001
+
+[node name="AbstractAsteroid118" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(62, -1728)
+mass = 1.0001
+
+[node name="AbstractAsteroid119" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-67, -2816)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid120" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-588, -1771)
+mass = 1.0001
+
+[node name="AbstractAsteroid121" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1448, -1862)
+mass = 1.0001
+
+[node name="AbstractAsteroid122" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(831, -2275)
+mass = 1.0001
+
+[node name="AbstractAsteroid123" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(730, -1926)
+mass = 1.0001
+
+[node name="AbstractAsteroid124" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-848, -1040)
+mass = 1.0001
+
+[node name="AbstractAsteroid125" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-338, -1052)
+mass = 1.0001
+
+[node name="AbstractAsteroid126" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1597, -30)
+mass = 1.0001
+
+[node name="AbstractAsteroid127" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(381, -1745)
+mass = 1.0001
+
+[node name="AbstractAsteroid128" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1068, -3341)
+mass = 1.0001
+
+[node name="AbstractAsteroid129" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(902, -2778)
+mass = 1.0001
+
+[node name="AbstractAsteroid130" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(58, -3685)
+mass = 1.0001
+
+[node name="AbstractAsteroid131" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(213, -3091)
+mass = 1.0001
+
+[node name="AbstractAsteroid132" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2661, -2764)
+mass = 1.0001
+
+[node name="AbstractAsteroid133" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1235, -3729)
+mass = 1.0001
+
+[node name="AbstractAsteroid134" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2510, -1353)
+mass = 1.0001
+
+[node name="AbstractAsteroid137" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2360, 956)
+mass = 1.0001
+
+[node name="AbstractAsteroid138" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1059, 882)
+mass = 1.0001
+
+[node name="AbstractAsteroid139" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(451, 782)
+mass = 1.0001
+
+[node name="AbstractAsteroid140" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1135, 1308)
+mass = 1.0001
+
+[node name="AbstractAsteroid141" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1913, 778)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid142" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(903, 434)
+mass = 1.0001
+
+[node name="AbstractAsteroid143" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1242, -53)
+mass = 1.0001
+
+[node name="AbstractAsteroid144" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2080, 390)
+mass = 1.0001
+
+[node name="AbstractAsteroid145" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1023, -2727)
+mass = 1.0001
+
+[node name="AbstractAsteroid146" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1556, -3631)
+mass = 1.0001
+
+[node name="AbstractAsteroid147" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1902, -3037)
+mass = 1.0001
+
+[node name="AbstractAsteroid148" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1414, -1590)
+mass = 1.0001
+
+[node name="AbstractAsteroid149" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1514, -2603)
+mass = 1.0001
+
+[node name="AbstractAsteroid150" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-2206, -2208)
+mass = 1.0001
+
+[node name="AbstractAsteroid151" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-2099, -1664)
+mass = 1.0001
+
+[node name="AbstractAsteroid152" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-2445, -1070)
+mass = 1.0001
+
+[node name="AbstractAsteroid153" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1785, 329)
+mass = 1.0001
+
+[node name="AbstractAsteroid154" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-2057, -636)
+mass = 1.0001
+
+[node name="AbstractAsteroid155" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-2403, -42)
+mass = 1.0001
+
+[node name="AbstractAsteroid156" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5717, 397)
+mass = 1.0001
+
+[node name="AbstractAsteroid157" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5152, 256)
+mass = 1.0001
+
+[node name="AbstractAsteroid158" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4208, 1072)
+mass = 1.0001
+
+[node name="AbstractAsteroid159" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5459, 846)
+mass = 1.0001
+
+[node name="AbstractAsteroid160" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6625, 146)
+mass = 1.0001
+
+[node name="AbstractAsteroid161" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4663, -275)
+mass = 1.0001
+
+[node name="AbstractAsteroid162" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4818, 319)
+mass = 1.0001
+
+[node name="AbstractAsteroid163" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5840, -319)
+mass = 1.0001
+
+[node name="AbstractAsteroid164" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1836, -2886)
+mass = 1.0001
+
+[node name="AbstractAsteroid165" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-949, -3752)
+mass = 1.0001
+
+[node name="AbstractAsteroid166" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(7558, -2004)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid167" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-263, -1979)
+mass = 1.0001
+
+[node name="AbstractAsteroid168" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-535, -2944)
+mass = 1.0001
+
+[node name="AbstractAsteroid169" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-881, -2350)
+mass = 1.0001
+
+[node name="AbstractAsteroid170" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1407, -394)
+mass = 1.0001
+
+[node name="AbstractAsteroid174" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1611, -2625)
+mass = 1.0001
+
+[node name="AbstractAsteroid175" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2029, -1630)
+mass = 1.0001
+
+[node name="AbstractAsteroid176" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1807, -1935)
+mass = 1.0001
+
+[node name="AbstractAsteroid177" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2104, -1809)
+mass = 1.0001
+asteroid_type = 5
+
+[node name="AbstractAsteroid178" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1726, -2152)
+mass = 1.0001
+
+[node name="AbstractAsteroid179" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(282, 999)
+mass = 1.0001
+
+[node name="AbstractAsteroid180" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-371, 1859)
+mass = 1.0001
+
+[node name="AbstractAsteroid181" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3623, 2325)
+mass = 1.0001
+
+[node name="AbstractAsteroid182" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-469, 1305)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid183" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1506, 2138)
+mass = 1.0001
+
+[node name="AbstractAsteroid184" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(476, 3128)
+mass = 1.0001
+
+[node name="AbstractAsteroid185" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(891, 1855)
+mass = 1.0001
+
+[node name="AbstractAsteroid186" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4024, 1395)
+mass = 1.0001
+
+[node name="AbstractAsteroid187" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4179, 1928)
+mass = 1.0001
+
+[node name="AbstractAsteroid188" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2088, 1894)
+mass = 1.0001
+
+[node name="AbstractAsteroid189" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1540, 376)
+mass = 1.0001
+
+[node name="AbstractAsteroid190" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1470, 1523)
+mass = 1.0001
+
+[node name="AbstractAsteroid191" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1295, 1486)
+mass = 1.0001
+
+[node name="AbstractAsteroid192" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1428, 2617)
+mass = 1.0001
+
+[node name="AbstractAsteroid193" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-2087, 868)
+mass = 1.0001
+
+[node name="AbstractAsteroid194" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1980, 1412)
+mass = 1.0001
+
+[node name="AbstractAsteroid195" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(387, 1987)
+mass = 1.0001
+
+[node name="AbstractAsteroid196" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(775, 2421)
+mass = 1.0001
+
+[node name="AbstractAsteroid197" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3124, 1858)
+mass = 1.0001
+
+[node name="AbstractAsteroid198" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2852, 893)
+mass = 1.0001
+
+[node name="AbstractAsteroid199" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2506, 1487)
+mass = 1.0001
+
+[node name="AbstractAsteroid200" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(7622, -3957)
+mass = 1.0001
+
+[node name="AbstractAsteroid201" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2464, 2750)
+mass = 1.0001
+
+[node name="AbstractAsteroid202" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-762, 726)
+mass = 1.0001
+
+[node name="AbstractAsteroid203" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-185, 599)
+mass = 1.0001
+
+[node name="AbstractAsteroid204" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2682, -4137)
+mass = 1.0001
+
+[node name="AbstractAsteroid205" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1886, -4211)
+mass = 1.0001
+
+[node name="AbstractAsteroid206" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(693, -1127)
+mass = 1.0001
+
+[node name="AbstractAsteroid207" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1236, -4254)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid208" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(976, -3523)
+mass = 1.0001
+
+[node name="AbstractAsteroid209" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1486, -3535)
+mass = 1.0001
+
+[node name="AbstractAsteroid210" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3659, -6374)
+mass = 1.0001
+
+[node name="AbstractAsteroid211" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1882, -6168)
+mass = 1.0001
+
+[node name="AbstractAsteroid212" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2037, -5574)
+mass = 1.0001
+
+[node name="AbstractAsteroid213" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1249, -2548)
+mass = 1.0001
+
+[node name="AbstractAsteroid214" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4819, -4578)
+mass = 1.0001
+
+[node name="AbstractAsteroid215" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-78, -5520)
+mass = 1.0001
+
+[node name="AbstractAsteroid216" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(410, -4073)
+mass = 1.0001
+
+[node name="AbstractAsteroid217" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(310, -5086)
+mass = 1.0001
+
+[node name="AbstractAsteroid218" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-382, -4691)
+mass = 1.0001
+
+[node name="AbstractAsteroid219" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-275, -4147)
+mass = 1.0001
+
+[node name="AbstractAsteroid220" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2774, -6120)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid221" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-233, -3119)
+mass = 1.0001
+
+[node name="AbstractAsteroid222" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6065, -4186)
+mass = 1.0001
+
+[node name="AbstractAsteroid223" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4025, -4919)
+mass = 1.0001
+
+[node name="AbstractAsteroid224" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(901, -5861)
+mass = 1.0001
+
+[node name="AbstractAsteroid225" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1561, -4462)
+mass = 1.0001
+
+[node name="AbstractAsteroid226" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1289, -5427)
+mass = 1.0001
+
+[node name="AbstractAsteroid227" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(943, -4833)
+mass = 1.0001
+asteroid_type = 4
+
+[node name="AbstractAsteroid228" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1461, -2818)
+mass = 1.0001
+
+[node name="AbstractAsteroid229" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5332, -455)
+mass = 1.0001
+
+[node name="AbstractAsteroid230" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6720, -981)
+mass = 1.0001
+
+[node name="AbstractAsteroid231" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(7068, -2945)
+mass = 1.0001
+
+[node name="AbstractAsteroid232" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4520, -58)
+mass = 1.0001
+
+[node name="AbstractAsteroid233" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4321, 582)
+mass = 1.0001
+
+[node name="AbstractAsteroid234" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4740, 707)
+mass = 1.0001
+
+[node name="AbstractAsteroid235" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5550, -123)
+mass = 1.0001
+
+[node name="AbstractAsteroid236" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3789, -3051)
+mass = 1.0001
+
+[node name="AbstractAsteroid237" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6409, -2288)
+mass = 1.0001
+
+[node name="AbstractAsteroid238" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3885, -1044)
+mass = 1.0001
+
+[node name="AbstractAsteroid239" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3613, -2009)
+mass = 1.0001
+
+[node name="AbstractAsteroid240" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3218, -1424)
+mass = 1.0001
+
+[node name="AbstractAsteroid241" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3755, 32)
+mass = 1.0001
+
+[node name="AbstractAsteroid242" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3655, -981)
+mass = 1.0001
+
+[node name="AbstractAsteroid243" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2963, -586)
+mass = 1.0001
+
+[node name="AbstractAsteroid244" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2404, -377)
+mass = 1.0001
+
+[node name="AbstractAsteroid245" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2724, 552)
+mass = 1.0001
+
+[node name="AbstractAsteroid246" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3373, 1232)
+mass = 1.0001
+
+[node name="AbstractAsteroid247" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6522, -3673)
+mass = 1.0001
+
+[node name="AbstractAsteroid248" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4592, -2350)
+mass = 1.0001
+
+[node name="AbstractAsteroid249" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4246, -1756)
+mass = 1.0001
+
+[node name="AbstractAsteroid250" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6534, -1662)
+mass = 1.0001
+
+[node name="AbstractAsteroid251" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4634, -1322)
+mass = 1.0001
+
+[node name="AbstractAsteroid252" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4288, -728)
+mass = 1.0001
+
+[node name="AbstractAsteroid253" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5060, 1506)
+mass = 1.0001
+
+[node name="AbstractAsteroid254" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1289, -2401)
+mass = 1.0001
+
+[node name="AbstractAsteroid255" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1259, -2014)
+mass = 1.0001
+
+[node name="AbstractAsteroid256" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2185, -2409)
+mass = 1.0001
+
+[node name="AbstractAsteroid258" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1507, -2069)
+mass = 1.0001
+
+[node name="AbstractAsteroid259" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1117, -1492)
+mass = 1.0001
+
+[node name="AbstractAsteroid260" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1016, -1143)
+mass = 1.0001
+
+[node name="AbstractAsteroid261" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1135, -1664)
+mass = 1.0001
+
+[node name="AbstractAsteroid262" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(628, -1570)
+mass = 1.0001
+
+[node name="AbstractAsteroid263" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2780, -1029)
+mass = 1.0001
+
+[node name="AbstractAsteroid264" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2215, -1170)
+mass = 1.0001
+
+[node name="AbstractAsteroid265" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(872, -354)
+mass = 1.0001
+
+[node name="AbstractAsteroid266" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2455, -679)
+mass = 1.0001
+
+[node name="AbstractAsteroid267" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2578, -1222)
+mass = 1.0001
+
+[node name="AbstractAsteroid269" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1881, -1107)
+mass = 1.0001
+
+[node name="AbstractAsteroid272" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3029, -1175)
+mass = 1.0001
+
+[node name="AbstractAsteroid274" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1384, -844)
+mass = 1.0001
+asteroid_type = 5
+
+[node name="AbstractAsteroid275" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1803, -719)
+mass = 1.0001
+
+[node name="AbstractAsteroid276" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2613, -1549)
+mass = 1.0001
+
+[node name="AbstractAsteroid277" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1021, -2460)
+mass = 1.0001
+
+[node name="AbstractAsteroid278" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(818, -1394)
+mass = 1.0001
+
+[node name="AbstractAsteroid279" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(718, -2407)
+mass = 1.0001
+
+[node name="AbstractAsteroid281" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(646, -2676)
+mass = 1.0001
+
+[node name="AbstractAsteroid282" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1678, -304)
+mass = 1.0001
+
+[node name="AbstractAsteroid289" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3070, -2423)
+mass = 1.0001
+
+[node name="AbstractAsteroid291" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3784, -2512)
+mass = 1.0001
+
+[node name="AbstractAsteroid292" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4810, -2487)
+mass = 1.0001
+
+[node name="AbstractAsteroid293" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4452, -2710)
+mass = 1.0001
+
+[node name="AbstractAsteroid294" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4351, -2361)
+mass = 1.0001
+
+[node name="AbstractAsteroid295" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4689, -3776)
+mass = 1.0001
+
+[node name="AbstractAsteroid296" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4452, -3155)
+mass = 1.0001
+
+[node name="AbstractAsteroid297" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6810, -4682)
+mass = 1.0001
+
+[node name="AbstractAsteroid298" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3834, -3526)
+mass = 1.0001
+
+[node name="AbstractAsteroid299" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4146, -2799)
+mass = 1.0001
+
+[node name="AbstractAsteroid300" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5357, -4164)
+mass = 1.0001
+
+[node name="AbstractAsteroid301" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5011, -3380)
+mass = 1.0001
+
+[node name="AbstractAsteroid302" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5056, -3801)
+mass = 1.0001
+
+[node name="AbstractAsteroid303" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5256, -2660)
+mass = 1.0001
+
+[node name="AbstractAsteroid305" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2867, -1942)
+mass = 1.0001
+
+[node name="AbstractAsteroid306" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2637, -2681)
+mass = 1.0001
+
+[node name="AbstractAsteroid308" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2542, -2812)
+mass = 1.0001
+
+[node name="AbstractAsteroid310" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2091, -2582)
+mass = 1.0001
+
+[node name="AbstractAsteroid311" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2540, -1716)
+mass = 1.0001
+
+[node name="AbstractAsteroid312" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2276, -1609)
+mass = 1.0001
+
+[node name="AbstractAsteroid313" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2837, -2260)
+mass = 1.0001
+
+[node name="AbstractAsteroid315" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2967, -2349)
+mass = 1.0001
+
+[node name="AbstractAsteroid316" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2538, -2584)
+mass = 1.0001
+
+[node name="AbstractAsteroid317" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2192, -1990)
+mass = 1.0001
+
+[node name="AbstractAsteroid321" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2341, -2932)
+mass = 1.0001
+
+[node name="AbstractAsteroid323" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2446, -2817)
+mass = 1.0001
+
+[node name="AbstractAsteroid324" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2469, -2402)
+mass = 1.0001
+
+[node name="AbstractAsteroid325" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-949, 169)
+mass = 1.0001
+
+[node name="AbstractAsteroid326" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-554, -500)
+mass = 1.0001
+
+[node name="AbstractAsteroid327" parent="Asteroids/RandomAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1612, 693)
+mass = 1.0001
+
+[node name="GinormousAsteroids" type="Node" parent="Asteroids"]
+
+[node name="AbstractAsteroid" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4455, -4298)
+max_ores = 30
+highly_valuable_asteroid = true
+asteroid_type = 6
+
+[node name="AbstractAsteroid2" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4754, -3469)
+max_ores = 30
+asteroid_type = 6
+
+[node name="AbstractAsteroid3" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3942, -3365)
+max_ores = 30
+asteroid_type = 6
+
+[node name="AbstractAsteroid4" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4083, -5559)
+max_ores = 30
+asteroid_type = 6
+
+[node name="AbstractAsteroid5" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(5325, -6426)
+max_ores = 30
+asteroid_type = 6
+
+[node name="AbstractAsteroid6" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(7100, -5989)
+max_ores = 30
+asteroid_type = 6
+
+[node name="AbstractAsteroid7" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(8075, -4091)
+max_ores = 30
+asteroid_type = 6
+
+[node name="AbstractAsteroid8" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2576, -2046)
+max_ores = 30
+asteroid_type = 5
+
+[node name="AbstractAsteroid9" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3060, -2912)
+max_ores = 30
+asteroid_type = 6
+
+[node name="AbstractAsteroid10" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(1553, -2392)
+max_ores = 30
+asteroid_type = 6
+
+[node name="AbstractAsteroid11" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2598, -3477)
+max_ores = 30
+asteroid_type = 6
+
+[node name="AbstractAsteroid12" parent="Asteroids/GinormousAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4872, -1952)
+max_ores = 30
+asteroid_type = 6
+
+[node name="BiggestAsteroids" type="Node" parent="Asteroids"]
+
+[node name="AbstractAsteroid" parent="Asteroids/BiggestAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(-1533, -1089)
+max_ores = 20
+asteroid_type = 5
+
+[node name="AbstractAsteroid2" parent="Asteroids/BiggestAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4590, -1946)
+max_ores = 20
+asteroid_type = 5
+
+[node name="AbstractAsteroid3" parent="Asteroids/BiggestAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(6420, -3014)
+max_ores = 20
+asteroid_type = 5
+
+[node name="AbstractAsteroid4" parent="Asteroids/BiggestAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(7668, -5013)
+max_ores = 20
+asteroid_type = 5
+
+[node name="AbstractAsteroid5" parent="Asteroids/BiggestAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(4580, -6663)
+max_ores = 20
+asteroid_type = 5
+
+[node name="AbstractAsteroid6" parent="Asteroids/BiggestAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2994, -6705)
+max_ores = 20
+asteroid_type = 5
+
+[node name="AbstractAsteroid7" parent="Asteroids/BiggestAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(3216, -5362)
+max_ores = 20
+asteroid_type = 5
+
+[node name="AbstractAsteroid8" parent="Asteroids/BiggestAsteroids" instance=ExtResource("11_pnusr")]
+position = Vector2(2708, -3257)
+max_ores = 20
+asteroid_type = 5
+
+[node name="Goal" parent="." groups=["tutorial_indicator_GOAL"] instance=ExtResource("13_k2god")]
+position = Vector2(5579, -4743)
+
+[node name="Core" parent="." groups=["tutorial_indicator_CORE"] instance=ExtResource("14_4dyvu")]
+z_index = 1
+position = Vector2(300, 19)
+
+[node name="UserInterface" type="CanvasLayer" parent="."]
+script = SubResource("GDScript_m1knl")
+
+[node name="Statistics" type="VBoxContainer" parent="UserInterface"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -112.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 66.0
+grow_horizontal = 0
+script = ExtResource("15_xge16")
+
+[node name="FPS" type="Label" parent="UserInterface/Statistics"]
+layout_mode = 2
+horizontal_alignment = 2
+
+[node name="SpeedrunTimeLabel" type="Label" parent="UserInterface/Statistics"]
+layout_mode = 2
+horizontal_alignment = 2
+
+[node name="Menu" type="PanelContainer" parent="UserInterface"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MContainer" type="MarginContainer" parent="UserInterface/Menu"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PContainer" type="PanelContainer" parent="UserInterface/Menu/MContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("17_87jm2")
+
+[node name="MContainer" type="MarginContainer" parent="UserInterface/Menu/MContainer/PContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ButtonsVBox" type="VBoxContainer" parent="UserInterface/Menu/MContainer/PContainer/MContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="GameoverMessage" type="Label" parent="UserInterface/Menu/MContainer/PContainer/MContainer/ButtonsVBox"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 50
+text = "VICTORY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerMessage" type="Label" parent="UserInterface/Menu/MContainer/PContainer/MContainer/ButtonsVBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Timer"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="UserInterface/Menu/MContainer/PContainer/MContainer/ButtonsVBox"]
+process_mode = 3
+visible = false
+layout_mode = 2
+text = "Resume"
+
+[node name="RestartButton" type="Button" parent="UserInterface/Menu/MContainer/PContainer/MContainer/ButtonsVBox"]
+process_mode = 3
+layout_mode = 2
+text = "Restart"
+
+[node name="QuitButton" type="Button" parent="UserInterface/Menu/MContainer/PContainer/MContainer/ButtonsVBox"]
+process_mode = 3
+layout_mode = 2
+text = "Quit to Menu"
+
+[node name="GameOverSFX" type="AudioStreamPlayer" parent="UserInterface/Menu/MContainer/PContainer"]
+stream = ExtResource("15_66xjv")
+volume_db = -4.727
+
+[node name="SpeedrunTimer" type="Timer" parent="UserInterface"]
+script = ExtResource("16_m0pso")
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="ValuableAsteroidsGuards" type="Node" parent="Enemies"]
+
+[node name="ChaserAlien" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3347.0002, -1460)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="ChaserAlien2" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3348, -1332.9999)
+rotation = 1.6969512
+tutorial_enemy = true
+
+[node name="ChaserAlien3" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3492, -1537.0002)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="ChaserAlien4" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3579, -1408.0001)
+rotation = 1.6969512
+tutorial_enemy = true
+
+[node name="ChaserAlien5" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(2143.0002, -2678.0002)
+rotation = 0.41461688
+tutorial_enemy = true
+
+[node name="ChaserAlien6" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(2225.9998, -2539)
+rotation = 1.2630924
+tutorial_enemy = true
+
+[node name="ChaserAlien7" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(2344.0002, -2753.0002)
+rotation = 0.41461688
+tutorial_enemy = true
+
+[node name="ChaserAlien8" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(2378.9998, -2611)
+rotation = 1.2630924
+tutorial_enemy = true
+
+[node name="ChaserAlien9" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(2975, -187)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="ChaserAlien10" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(2988.0002, 9.000061)
+rotation = 1.6969512
+tutorial_enemy = true
+
+[node name="ChaserAlien11" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3494.0002, -1275.9999)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="ChaserAlien12" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3181.9998, -64.00003)
+rotation = 1.6969512
+tutorial_enemy = true
+
+[node name="ChaserAlien13" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(346, -2618)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="ChaserAlien14" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(468, -2515.0002)
+rotation = 1.6969512
+tutorial_enemy = true
+
+[node name="ChaserAlien15" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(2215, -2797.0002)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="ChaserAlien16" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(511.00012, -2659)
+rotation = 1.6969512
+tutorial_enemy = true
+
+[node name="ChaserAlien17" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(446.00012, -1338)
+rotation = 2.5454268
+tutorial_enemy = true
+
+[node name="ChaserAlien18" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(1631.9999, 192)
+rotation = 1.6969512
+tutorial_enemy = true
+
+[node name="ChaserAlien19" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(1468.0001, 93.000015)
+rotation = -2.889283
+tutorial_enemy = true
+
+[node name="ChaserAlien20" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(549.00006, -1184)
+rotation = 2.5454268
+tutorial_enemy = true
+
+[node name="ChaserAlien21" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(1619, 30.999985)
+rotation = -2.889283
+tutorial_enemy = true
+
+[node name="ChaserAlien22" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(630.00006, -1362)
+rotation = 2.5454268
+tutorial_enemy = true
+
+[node name="ChaserAlien23" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(5224, -3149.9998)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="ChaserAlien24" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(5225, -3022.9995)
+rotation = 1.6969512
+tutorial_enemy = true
+
+[node name="ChaserAlien25" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(5369, -3227)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="ChaserAlien26" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(5456, -3098)
+rotation = 1.6969512
+tutorial_enemy = true
+
+[node name="ChaserAlien27" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(5371, -2965.9995)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="ChaserAlien28" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3417.0002, -4429)
+rotation = 0.41461688
+tutorial_enemy = true
+
+[node name="ChaserAlien29" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3500, -4290)
+rotation = 1.2630924
+scale = Vector2(0.99999994, 0.99999994)
+tutorial_enemy = true
+
+[node name="ChaserAlien30" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3618.0002, -4504)
+rotation = 0.41461688
+tutorial_enemy = true
+
+[node name="ChaserAlien31" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3653, -4362)
+rotation = 1.2630924
+scale = Vector2(0.99999994, 0.99999994)
+tutorial_enemy = true
+
+[node name="ChaserAlien32" parent="Enemies/ValuableAsteroidsGuards" instance=ExtResource("16_fkije")]
+position = Vector2(3489, -4548)
+rotation = 0.8484756
+tutorial_enemy = true
+
+[node name="SwarmerAliens" type="Node" parent="Enemies"]
+
+[node name="SwarmerSpawner" parent="Enemies/SwarmerAliens" instance=ExtResource("19_k2dyu")]
+position = Vector2(945, -615)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner8" parent="Enemies/SwarmerAliens" instance=ExtResource("19_k2dyu")]
+position = Vector2(1959, -805)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner2" parent="Enemies/SwarmerAliens" instance=ExtResource("19_k2dyu")]
+position = Vector2(-793, -1338)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner4" parent="Enemies/SwarmerAliens" instance=ExtResource("19_k2dyu")]
+position = Vector2(1776, -1497)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner5" parent="Enemies/SwarmerAliens" instance=ExtResource("19_k2dyu")]
+position = Vector2(2600, 557)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner3" parent="Enemies/SwarmerAliens" instance=ExtResource("19_k2dyu")]
+position = Vector2(530, -2172)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner6" parent="Enemies/SwarmerAliens" instance=ExtResource("19_k2dyu")]
+position = Vector2(1801, 1259)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner7" parent="Enemies/SwarmerAliens" instance=ExtResource("19_k2dyu")]
+position = Vector2(-1233, -2006)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="TutorialEnemies" type="Node" parent="Enemies"]
+
+[node name="TutorialSwarmerAlien" parent="Enemies/TutorialEnemies" groups=["tutorial_indicator_ALIEN"] instance=ExtResource("17_y25pn")]
+position = Vector2(-150, 1184)
+tutorial_enemy = true
+
+[node name="TutorialSwarmerAlien2" parent="Enemies/TutorialEnemies" groups=["tutorial_indicator_ALIEN"] instance=ExtResource("17_y25pn")]
+position = Vector2(-99, 781)
+tutorial_enemy = true
+
+[node name="TutorialSwarmerAlien3" parent="Enemies/TutorialEnemies" groups=["tutorial_indicator_ALIEN"] instance=ExtResource("17_y25pn")]
+position = Vector2(134, 1018)
+tutorial_enemy = true
+
+[node name="TutorialSwarmerAlien4" parent="Enemies/TutorialEnemies" groups=["tutorial_indicator_ALIEN"] instance=ExtResource("17_y25pn")]
+position = Vector2(-530, 814)
+tutorial_enemy = true
+
+[node name="SwarmerSpawners" type="Node2D" parent="Enemies"]
+
+[node name="SwarmerSpawner" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(3644, -5172)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner2" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4432, -3691)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner21" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4942, -3879)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner22" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4466, -4632)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner23" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4862, -4834)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner24" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(5762, -4012)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner25" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(5072, -3580)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner26" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(3385, -3930)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner27" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4007, -4170)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner28" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4016, -3196)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner29" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4319, -2470)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner3" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(6076, -3681)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner4" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(7210, -4412)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner5" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(6422, -5335)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner6" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4768, -5931)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner18" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(2212, -4153)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner19" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(2895, -3172)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner20" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(2299, -2220)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner7" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(1903, -5258)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner8" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(6277, -3383)
+spawn_cap = 8
+spawn_radius = 80.0
+
+[node name="SwarmerSpawner14" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(5281, -5218)
+spawn_cap = 8
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner15" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(5567, -4484)
+spawn_cap = 8
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner16" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(6199, -4982)
+spawn_cap = 8
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner17" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4460, -4912)
+spawn_cap = 8
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner9" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4479, -1518)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner10" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(3470, -2787)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner11" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(4412, -3489)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner12" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(1576, -4008)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="SwarmerSpawner13" parent="Enemies/SwarmerSpawners" instance=ExtResource("19_k2dyu")]
+position = Vector2(547, -3412)
+spawn_cap = 4
+spawn_radius = 100.0
+
+[node name="TutorialGUI" parent="." node_paths=PackedStringArray("level") instance=ExtResource("18_y25pn")]
+unique_name_in_owner = true
+visible = false
+level = NodePath("..")
+
+[connection signal="pressed" from="UserInterface/Menu/MContainer/PContainer/MContainer/ButtonsVBox/ResumeButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="UserInterface/Menu/MContainer/PContainer/MContainer/ButtonsVBox/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="UserInterface/Menu/MContainer/PContainer/MContainer/ButtonsVBox/QuitButton" to="." method="_on_menu_button_pressed"]

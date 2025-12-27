@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://upe3jbi3k54l"]
+
+[node name="BlockPreview" type="TextureRect"]
+custom_minimum_size = Vector2(64, 64)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+stretch_mode = 3

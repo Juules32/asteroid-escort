@@ -1,0 +1,26 @@
+[gd_resource type="ParticleProcessMaterial" load_steps=3 format=3 uid="uid://23fedj5qkx2q"]
+
+[sub_resource type="Curve" id="Curve_wehx7"]
+_data = [Vector2(0.1898148, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.64617825), 1.5537056, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_bq0im"]
+curve = SubResource("Curve_wehx7")
+
+[resource]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(50, 0, 0)
+emission_shape_scale = Vector3(1, 1, 0)
+emission_shape = 3
+emission_box_extents = Vector3(50, 3, 1)
+angle_min = 1.0728835e-05
+angle_max = 1.0728835e-05
+spread = 180.0
+initial_velocity_max = 10.0
+angular_velocity_min = 109.51998
+angular_velocity_max = 227.14998
+gravity = Vector3(0, 0, 0)
+attractor_interaction_enabled = false
+scale_max = 2.0
+alpha_curve = SubResource("CurveTexture_bq0im")

@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3 uid="uid://d07y8di1m4oa6"]
+
+[ext_resource type="Script" uid="uid://pfh36p1ftotx" path="res://game_world/entities/physics/structures/core/goal.gd" id="1_s286o"]
+[ext_resource type="PackedScene" uid="uid://b7yoht6nuok11" path="res://game_world/black_hole/black_hole.tscn" id="2_iai4g"]
+[ext_resource type="Shader" uid="uid://d26dpg55l186l" path="res://shaders/black_hole.gdshader" id="3_6t5ro"]
+[ext_resource type="AudioStream" uid="uid://c6mq3e1rsnh72" path="res://game_world/entities/physics/structures/core/Game won-bounce-1.wav" id="4_32dsd"]
+[ext_resource type="AudioStream" uid="uid://3tki2ipmqpq5" path="res://game_world/entities/physics/structures/core/Black hole ambience-bounce-2.wav" id="5_x5s6x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n6241"]
+radius = 150.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_32dsd"]
+resource_local_to_scene = true
+shader = ExtResource("3_6t5ro")
+shader_parameter/strength = 0.05
+shader_parameter/swirl_strength = 2.0
+shader_parameter/spin_speed = 1.0
+shader_parameter/black_radius = 0.3
+shader_parameter/chroma_strength = 0.01
+
+[node name="Goal" type="Node2D" groups=["indicated"]]
+script = ExtResource("1_s286o")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_n6241")
+
+[node name="BlackHole" parent="." instance=ExtResource("2_iai4g")]
+z_index = 7
+material = SubResource("ShaderMaterial_32dsd")
+offset_left = -451.25
+offset_top = -451.25
+offset_right = 451.25
+offset_bottom = 451.25
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_32dsd")
+volume_db = -7.091
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_x5s6x")
+volume_db = 5.022
+autoplay = true
+max_distance = 1200.0
+bus = &"Diegetic SFX"
+
+[connection signal="body_shape_entered" from="Area2D" to="." method="_on_area_2d_body_shape_entered"]
