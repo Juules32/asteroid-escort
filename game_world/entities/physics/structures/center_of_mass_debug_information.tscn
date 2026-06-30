@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dltbkvi54mej5"]
-
-[ext_resource type="Script" uid="uid://ddl53g0c142uw" path="res://game_world/entities/physics/structures/center_of_mass_debug_information.gd" id="1_7wkvm"]
-
-[node name="CenterOfMassDebugInformation" type="Node2D"]
-script = ExtResource("1_7wkvm")

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://yjlneexxasv1"]
-
-[ext_resource type="Script" uid="uid://b176g0mxivngb" path="res://singletons/multiplayer_session_manager/util/debug_session_manager.gd" id="1_44p16"]
-
-[node name="DebugSessionManager" type="Node"]
-script = ExtResource("1_44p16")
